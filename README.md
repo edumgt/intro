@@ -1,5 +1,5 @@
-### 시스템 구축 주요 이력
-### Works	Customers	Years	Information
+## 시스템 구축 주요 이력
+
 ### 필라테스 실시간 교육	홈필	2023	WebRTC, STUN
 ### 성과관리 레포팅	핵연료처리기술단	2023	Boot, React, ApexChart
 ### 버츄얼 페이스	SR 유니버스	2023	React 기반 관리자 모드
