@@ -1,5 +1,7 @@
 ## 시스템 구축 주요 이력
 
+### kt DS (방배사옥) AWS 전체 서비스 활용 MSP 사업(EKS,ECS,ECR,Codeseries CI/CD) 지원 SA 참여 중
+### 현대자동차(의왕연구소) RWS2.0 차세대 전환 사업, SpringBoot, MariaDB, Kafka, react, thymeleaf (23년9월 ~ 24년 2월)
 ### 필라테스 실시간 교육	홈필	2023	WebRTC, STUN
 ### 성과관리 레포팅	핵연료처리기술단	2023	Boot, React, ApexChart
 ### 버츄얼 페이스	SR 유니버스	2023	React 기반 관리자 모드
