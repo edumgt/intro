@@ -21,6 +21,7 @@
             overflow: auto;
             background-color: rgba(0,0,0,0.4);
             padding-top: 60px;
+            pointer-events: auto; /* Allow interaction with modal */
         }
         .modal-content {
             background-color: #fefefe;
@@ -30,6 +31,7 @@
             width: 80%;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            pointer-events: auto; /* Allow interaction with modal content */
         }
         .close {
             color: #aaa;
@@ -45,8 +47,14 @@
         }
         /* Grid container with Y-Scroll */
         #grid {
-            max-height: 300px; /* Adjust height as needed */
+            max-height: 600px; /* Adjust height as needed */
             overflow-y: auto;
+        }
+        /* Larger checkboxes */
+        .tui-grid-cell-header .tui-grid-checkbox,
+        .tui-grid-cell .tui-grid-checkbox {
+            width: 20px;
+            height: 20px;
         }
     </style>
 </head>
@@ -56,9 +64,10 @@
             <h1 class="text-2xl font-bold">BBS</h1>
             <div class="flex space-x-2">
                 <button id="addRow" class="bg-blue-500 text-white px-4 py-2 rounded">Add Row</button>
+                <!-- button id="editRow" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit Selected Row</button -->
                 <button id="removeRow" class="bg-red-500 text-white px-4 py-2 rounded">Remove Selected Row</button>
-                <button id="saveData" class="bg-green-500 text-white px-4 py-2 rounded">Save Data</button>
-                <button id="saveAll" class="bg-purple-500 text-white px-4 py-2 rounded">Save ALL</button>
+                <button id="saveData" class="bg-green-500 text-white px-4 py-2 rounded">Save To Local</button>
+                <button id="saveAll" class="bg-purple-500 text-white px-4 py-2 rounded">Save To Server</button>
             </div>
         </div>
         <div id="grid" class="mb-4"></div>
@@ -100,6 +109,18 @@
         </div>
     </div>
 
+    <!-- Alert Modal -->
+    <div id="alertModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-2xl mb-4">Alert</h2>
+            <p id="alertMessage"></p>
+            <div class="flex justify-end mt-4">
+                <button id="alertOk" class="bg-blue-500 text-white px-4 py-2 rounded">OK</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Load data from local storage
         function loadData() {
@@ -110,6 +131,13 @@
         // Save data to local storage
         function saveData(data) {
             localStorage.setItem('gridData', JSON.stringify(data));
+			currentRowKey = null;
+        }
+
+        // Show alert modal
+        function showAlert(message) {
+            document.getElementById('alertMessage').innerText = message;
+            document.getElementById('alertModal').style.display = 'block';
         }
 
         const grid = new tui.Grid({
@@ -125,63 +153,63 @@
             editingEvent: 'click'
         });
 
+        const modal = document.getElementById("myModal");
+        const confirmModal = document.getElementById("confirmModal");
+        const alertModal = document.getElementById("alertModal");
+        const span = document.getElementsByClassName("close");
+        const editForm = document.getElementById("editForm");
+        
+
         document.getElementById('addRow').addEventListener('click', () => {
             modal.style.display = "block";
             currentRowKey = null;
             editForm.reset();
         });
 
-        document.getElementById('removeRow').addEventListener('click', () => {
-            confirmModal.style.display = "block";
-        });
-
-        document.getElementById('saveData').addEventListener('click', () => {
-            saveData(grid.getData());
-            alert('Data saved to local storage!');
-        });
-
-        document.getElementById('saveAll').addEventListener('click', () => {
-            fetch('/api/saveAll', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(grid.getData())
-            })
-            .then(response => response.json())
-            .then(() => alert('Data saved to server!'))
-            .catch(error => console.error('Error:', error));
-        });
-
-        grid.on('afterChange', () => saveData(grid.getData()));
-
-        // Modal handling
-        const modal = document.getElementById("myModal");
-        const confirmModal = document.getElementById("confirmModal");
-        const span = document.getElementsByClassName("close");
-        const editForm = document.getElementById("editForm");
-        let currentRowKey;
-
-        grid.on('dblclick', ev => {
-            if (ev.targetType === 'cell') {
-                currentRowKey = ev.rowKey;
-                const rowData = grid.getRow(currentRowKey);
+		/*
+        document.getElementById('editRow').addEventListener('click', () => {
+            const checkedRows = grid.getCheckedRows();
+            if (checkedRows.length === 1) {
+                const rowKey = checkedRows[0].rowKey;
+                const rowData = grid.getRow(rowKey);
+                currentRowKey = rowKey;
                 document.getElementById('name').value = rowData.name;
                 document.getElementById('age').value = rowData.age;
                 document.getElementById('location').value = rowData.location;
                 modal.style.display = "block";
+            } else {
+                showAlert('Please select exactly one row to edit.');
             }
         });
+		*/
+
+        document.getElementById('removeRow').addEventListener('click', () => {
+            const checkedRows = grid.getCheckedRows();
+            if (checkedRows.length > 0) {
+                confirmModal.style.display = "block";
+            } else {
+                showAlert('Please select at least one row to delete.');
+            }
+            currentRowKey = null;
+        });
+
+        grid.on('afterChange', () => saveData(grid.getData()));
+		/*
+		grid.on('click', (ev) => {
+            const rowKey = ev.rowKey;
+            grid.check(rowKey);
+            const checkedRows = grid.getCheckedRows();
+            currentRowKey = checkedRows.length > 0 ? rowKey : null;
+        });
+		*/
 
         Array.from(span).forEach(element => {
             element.onclick = () => {
                 modal.style.display = "none";
                 confirmModal.style.display = "none";
+                alertModal.style.display = "none";
             };
         });
-
-        window.onclick = event => {
-            if (event.target == modal) modal.style.display = "none";
-            if (event.target == confirmModal) confirmModal.style.display = "none";
-        };
 
         document.getElementById('saveEdit').addEventListener('click', () => {
             const updatedData = {
@@ -209,6 +237,29 @@
         document.getElementById('confirmNo').addEventListener('click', () => {
             confirmModal.style.display = "none";
         });
+
+        document.getElementById('alertOk').addEventListener('click', () => {
+            alertModal.style.display = "none";
+        });
+
+        document.getElementById('saveData').addEventListener('click', () => {
+            saveData(grid.getData());
+            showAlert('Data saved to local storage!');
+        });
+
+        document.getElementById('saveAll').addEventListener('click', () => {
+            fetch('/api/saveAll', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(grid.getData())
+            })
+            .then(response => response.json())
+            .then(() => showAlert('Data saved to server!'))
+            .catch(error => showAlert('Error: ' + error));
+        });
+		
+		
+		let currentRowKey = null;
     </script>
 </body>
 </html>
