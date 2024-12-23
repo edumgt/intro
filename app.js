@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     grid.on('afterChange', function() {
         console.log('데이터 변경됨');
         saveData();
+	grid.refreshLayout();
     });
 
     // 검색 기능
