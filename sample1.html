@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUI Grid with Sort, Y-Scroll, Modal, and Local Storage</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.grid/latest/tui-grid.css">
+    <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
+    <script src="https://uicdn.toast.com/tui.grid/latest/tui-grid.js"></script>
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000; /* Ensure the modal is on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Grid container with Y-Scroll */
+        #grid {
+            max-height: 300px; /* Adjust height as needed */
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold">BBS</h1>
+            <div class="flex space-x-2">
+                <button id="addRow" class="bg-blue-500 text-white px-4 py-2 rounded">Add Row</button>
+                <button id="removeRow" class="bg-red-500 text-white px-4 py-2 rounded">Remove Selected Row</button>
+                <button id="saveData" class="bg-green-500 text-white px-4 py-2 rounded">Save Data</button>
+                <button id="saveAll" class="bg-purple-500 text-white px-4 py-2 rounded">Save ALL</button>
+            </div>
+        </div>
+        <div id="grid" class="mb-4"></div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-2xl mb-4">Edit Row</h2>
+            <form id="editForm" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+                    <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-10">
+                </div>
+                <div>
+                    <label for="age" class="block text-sm font-medium text-gray-700">Age:</label>
+                    <input type="text" id="age" name="age" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-10">
+                </div>
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Location:</label>
+                    <input type="text" id="location" name="location" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-10">
+                </div>
+                <button type="button" id="saveEdit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-2xl mb-4">Confirm Deletion</h2>
+            <p>Are you sure you want to delete the selected rows?</p>
+            <div class="flex space-x-2 mt-4">
+                <button id="confirmYes" class="bg-red-500 text-white px-4 py-2 rounded">Yes</button>
+                <button id="confirmNo" class="bg-gray-500 text-white px-4 py-2 rounded">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load data from local storage
+        function loadData() {
+            const data = localStorage.getItem('gridData');
+            return data ? JSON.parse(data) : [];
+        }
+
+        // Save data to local storage
+        function saveData(data) {
+            localStorage.setItem('gridData', JSON.stringify(data));
+        }
+
+        const grid = new tui.Grid({
+            el: document.getElementById('grid'),
+            data: loadData(),
+            columns: [
+                {header: 'Name', name: 'name', editor: 'text', sortable: true},
+                {header: 'Age', name: 'age', editor: 'text', sortable: true},
+                {header: 'Location', name: 'location', editor: 'text', sortable: true},
+                {header: 'Create Date', name: 'createDate', sortable: true}
+            ],
+            rowHeaders: ['checkbox'],
+            editingEvent: 'click'
+        });
+
+        document.getElementById('addRow').addEventListener('click', () => {
+            modal.style.display = "block";
+            currentRowKey = null;
+            editForm.reset();
+        });
+
+        document.getElementById('removeRow').addEventListener('click', () => {
+            confirmModal.style.display = "block";
+        });
+
+        document.getElementById('saveData').addEventListener('click', () => {
+            saveData(grid.getData());
+            alert('Data saved to local storage!');
+        });
+
+        document.getElementById('saveAll').addEventListener('click', () => {
+            fetch('/api/saveAll', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(grid.getData())
+            })
+            .then(response => response.json())
+            .then(() => alert('Data saved to server!'))
+            .catch(error => console.error('Error:', error));
+        });
+
+        grid.on('afterChange', () => saveData(grid.getData()));
+
+        // Modal handling
+        const modal = document.getElementById("myModal");
+        const confirmModal = document.getElementById("confirmModal");
+        const span = document.getElementsByClassName("close");
+        const editForm = document.getElementById("editForm");
+        let currentRowKey;
+
+        grid.on('dblclick', ev => {
+            if (ev.targetType === 'cell') {
+                currentRowKey = ev.rowKey;
+                const rowData = grid.getRow(currentRowKey);
+                document.getElementById('name').value = rowData.name;
+                document.getElementById('age').value = rowData.age;
+                document.getElementById('location').value = rowData.location;
+                modal.style.display = "block";
+            }
+        });
+
+        Array.from(span).forEach(element => {
+            element.onclick = () => {
+                modal.style.display = "none";
+                confirmModal.style.display = "none";
+            };
+        });
+
+        window.onclick = event => {
+            if (event.target == modal) modal.style.display = "none";
+            if (event.target == confirmModal) confirmModal.style.display = "none";
+        };
+
+        document.getElementById('saveEdit').addEventListener('click', () => {
+            const updatedData = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                location: document.getElementById('location').value,
+                createDate: new Date().toLocaleString() // Add current date and time
+            };
+            if (currentRowKey !== null) {
+                grid.setRow(currentRowKey, updatedData);
+            } else {
+                grid.prependRow(updatedData); // Add new row at the top
+            }
+            modal.style.display = "none";
+            saveData(grid.getData());
+        });
+
+        document.getElementById('confirmYes').addEventListener('click', () => {
+            const checkedRows = grid.getCheckedRows();
+            checkedRows.forEach(row => grid.removeRow(row.rowKey));
+            confirmModal.style.display = "none";
+            saveData(grid.getData());
+        });
+
+        document.getElementById('confirmNo').addEventListener('click', () => {
+            confirmModal.style.display = "none";
+        });
+    </script>
+</body>
+</html>
