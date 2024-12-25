@@ -219,10 +219,10 @@
                 rowHeight: 43,
                 minRowHeight: 43,
                 columns: [
-                    { header: 'Key', name: 'Key', width: 250, align: 'left', sortable: true, resizable: true,width: 100,minWidth: 80  }, // UUID column    
-                    { header: '그룹코드', name: 'tpCd', editor: 'text', validation: { required: true, unique: true }, sortable: true, filter: 'text', resizable: true,width: 150  },
-                    { header: '코드명', name: 'tpNm', editor: 'text', sortable: true, filter: 'text', resizable: true, width: 200  },
-                    { header: '설명', name: 'descCntn', editor: 'text', sortable: true, filter: 'text', resizable: true,   },
+                    { header: 'Key', name: 'Key', width: 250, align: 'left', sortable: true, resizable: true, width: 100, minWidth: 80 }, // UUID column    
+                    { header: '그룹코드', name: 'tpCd', editor: 'text', validation: { required: true }, sortable: true, filter: 'text', resizable: true, width: 150 },
+                    { header: '코드명', name: 'tpNm', editor: 'text', sortable: true, filter: 'text', resizable: true, width: 200 },
+                    { header: '설명', name: 'descCntn', editor: 'text', sortable: true, filter: 'text', resizable: true, },
                     {
                         header: '사용여부', name: 'useYn', width: 100, align: 'center',
                         editor: {
@@ -240,7 +240,11 @@
                         }
                     }
                 ],
-                data: loadPageData(1, rowsPerPage) // Load initial page data
+                data: loadPageData(1, rowsPerPage), // Load initial page data
+                columnOptions: {
+                    frozenCount: 2, // Freeze 3 left most columns and 
+                    frozenBorderWidth: 2 // set the border width of frozen columns to be 2px.
+                }
             });
 
 
