@@ -23,7 +23,7 @@
         .tui-grid-cell {
             background-color: transparent !important;
             font-size: 16px !important;
-            
+
             color: #333 !important;
             font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
                 Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
@@ -34,8 +34,8 @@
         /* Remove default yellow/pink backgrounds in TUI Grid */
         .tui-grid-cell.tui-grid-cell-has-focus {
             background-color: transparent !important;
-            border-color: #3182ce  !important;
-         }
+            border-color: #3182ce !important;
+        }
 
         .tui-grid-cell.tui-grid-cell-invalid {
             background-color: transparent !important;
@@ -53,7 +53,9 @@
         .toast {
             position: fixed;
             top: 1rem;
+            /* Move to the top of the screen */
             right: 1rem;
+            /* Align to the right */
             min-width: 200px;
             padding: 1rem;
             border-radius: 5px;
@@ -62,6 +64,7 @@
             z-index: 1000;
             opacity: 0;
             transform: translateY(-20px);
+            /* Adjust animation direction for top placement */
             transition: opacity 0.3s, transform 0.3s;
         }
 
@@ -88,28 +91,53 @@
     </style>
 
 
+
+
 </head>
 
 <body class="bg-gray-100">
     <!-- Toast Container -->
     <div id="toast-container"></div>
 
+
+
     <!-- content -->
     <div id="content" class="container mx-auto p-6">
+
+
         <div class="bg-white shadow rounded-lg p-6">
 
-
-            <div class="mb-6">
-                <button id="newrow"
-                    class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 mr-2">신규</button>
-                <button id="delrow" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 mr-2">삭제</button>
-                <button id="saverow"
-                    class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">저장</button>
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-lg font-semibold">에듀엠지티 기본 Grid Sample</h2>
             </div>
 
-            <div class="bg-gray-50 border border-gray-200 rounded-lg">
+            <div class="border-gray-200 rounded-lg">
+                <!-- Data count positioned above the grid on the left -->
+                <div class="flex justify-between items-center p-4">
+                    <div id="dataCount" class="text-sm text-gray-700"></div>
+                    <div class="flex justify-end mt-4 space-x-2">
+                        <button id="newrow"
+                            class="px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
+                            신규
+                        </button>
+                        <button id="delrow"
+                            class="px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
+                            삭제
+                        </button>
+                        <button id="saverow"
+                            class="px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
+                            저장
+                        </button>
+                    </div>
+
+                </div>
+                <!-- The grid -->
                 <div id="grid" style="height: 580px;"></div>
             </div>
+
+
+
+
         </div>
     </div>
     <!-- //content -->
@@ -133,22 +161,51 @@
 
         document.addEventListener('DOMContentLoaded', function () {
 
-            document.addEventListener('click', function (event) {
-                if (event.target.id) {
-                    console.log('Clicked ID:', event.target.id);
-                }
-            });
+            // UUID Generator Function
+            function generateUUID() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                    const r = (Math.random() * 16) | 0,
+                        v = c === 'x' ? r : (r & 0x3) | 0x8;
+                    return v.toString(16);
+                });
+            }
 
+            let rowsPerPage = 10; // Default rows per page
+
+            // Function to update pagination
+            function updatePagination(totalItems, perPage) {
+                pagination.reset(totalItems); // Reset pagination with the updated total items
+                pagination.setItemsPerPage(perPage); // Set items per page
+            }
+
+            // Function to load paginated data
+            function loadPageData(page, perPage) {
+                const allData = loadData();
+                const start = (page - 1) * perPage;
+                const end = start + perPage;
+                return allData.slice(start, end);
+            }
+
+            // Function to update the total count display
+            function updateDataCount() {
+                const allData = loadData();
+                const dataCountElement = document.getElementById('dataCount');
+                dataCountElement.textContent = `Total Rows: ${allData.length}`;
+            }
+
+            // Function to load data from localStorage
             function loadData() {
                 const data = localStorage.getItem('gridData');
                 return data ? JSON.parse(data) : [];
             }
 
+            // Function to save data to localStorage
             function saveData(data) {
                 const filteredData = data.filter(row => row.tpCd && row.tpNm);
                 localStorage.setItem('gridData', JSON.stringify(filteredData));
             }
 
+            // Initialize the grid
             const grid = new tui.Grid({
                 el: document.getElementById('grid'),
                 rowHeaders: ['checkbox', 'rowNum'],
@@ -157,66 +214,88 @@
                 scrollY: true,
                 pageOptions: {
                     useClient: true,
-                    perPage: 10
+                    perPage: rowsPerPage
                 },
                 rowHeight: 43,
                 minRowHeight: 43,
                 columns: [
-                    { header: '그룹코드', name: 'tpCd', editor: 'text', validation: { required: true, unique: true }, sortable: true },
-                    { header: '코드명', name: 'tpNm', editor: 'text', sortable: true },
-                    { header: '설명', name: 'descCntn', editor: 'text', sortable: true },
+                    { header: 'Key', name: 'Key', width: 250, align: 'left', sortable: true }, // UUID column    
+                    { header: '그룹코드', name: 'tpCd', editor: 'text', validation: { required: true, unique: true }, sortable: true, filter: 'text' },
+                    { header: '코드명', name: 'tpNm', editor: 'text', sortable: true, filter: 'text' },
+                    { header: '설명', name: 'descCntn', editor: 'text', sortable: true, filter: 'text' },
                     {
                         header: '사용여부', name: 'useYn', width: 100, align: 'center',
                         editor: {
                             type: 'select',
                             options: { listItems: [{ text: 'Y', value: 'Y' }, { text: 'N', value: 'N' }] }
                         },
-                        sortable: true
+                        sortable: true,
+                        filter: {
+                            type: 'select',
+                            options: [
+                                { text: 'All', value: '' },
+                                { text: 'Y', value: 'Y' },
+                                { text: 'N', value: 'N' }
+                            ]
+                        }
                     }
                 ],
-                data: loadData()
+                data: loadPageData(1, rowsPerPage) // Load initial page data
             });
+
+
+
+            // Apply TUI Grid theme
             tui.Grid.applyTheme('default');
 
+            // Initial update of data count
+            updateDataCount();
+
+            // Delete row functionality
             document.getElementById('delrow').addEventListener('click', function () {
                 const chkArray = grid.getCheckedRowKeys();
                 if (chkArray.length > 0) {
                     grid.removeCheckedRows();
                     saveData(grid.getData());
                     showToast('선택된 항목이 삭제되었습니다.', 'success');
+                    updateDataCount();
+                    updatePagination(loadData().length, rowsPerPage);
                 } else {
                     showToast('삭제할 항목이 선택되지 않았습니다.', 'warning');
                 }
             });
 
+            // Save row functionality
             document.getElementById('saverow').addEventListener('click', function () {
                 saveData(grid.getData());
                 showToast('데이터가 저장되었습니다.', 'success');
+                updateDataCount();
             });
 
+            // Add new row functionality
             document.getElementById('newrow').addEventListener('click', function () {
-
                 const data = grid.getData();
-
                 const hasEmptyRow = data.some(row => row.tpCd === '' || row.tpNm === '');
-
                 if (hasEmptyRow) {
-                    showToast('이미 신규 입력 가능합니다.', 'warning');
+                    showToast('1번행에 입력가능 합니다.', 'info');
                     return;
                 }
-
-                saveData(grid.getData());
-                initNew();
-                showToast('새로운 항목이 추가되었습니다.', 'info');
+                const newRow = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
+                grid.prependRow(newRow, { focus: true });
+                saveData([...data, newRow]);
+                updateDataCount();
             });
 
+            // Initialize a new row
             function initNew() {
                 const rowData = { tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
                 grid.prependRow(rowData, { focus: true });
+                updateDataCount();
             }
 
             initNew();
         });
+
     </script>
 </body>
 
