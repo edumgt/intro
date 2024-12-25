@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+
     <script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
     <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
     <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
@@ -140,9 +145,32 @@
 
         </div>
     </div>
+
+    <!-- Modal Popup -->
+    <div id="modal"
+        class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
+            <h2 class="text-lg font-semibold mb-4">Modal Popup</h2>
+            <p id="modalContent">You clicked on the View icon.</p>
+            <button id="closeModal"
+                class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 mt-4">Close</button>
+        </div>
+    </div>
+
     <!-- //content -->
 
     <script>
+
+function toggleModal(show, content = '') {
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
+    if (show) {
+        modalContent.textContent = content; // Update content dynamically
+        modal.classList.remove('hidden');
+    } else {
+        modal.classList.add('hidden');
+    }
+}
         // Toast Functionality
         function showToast(message, type = 'success') {
             const toastContainer = document.getElementById('toast-container');
@@ -238,6 +266,14 @@
                                 { text: 'N', value: 'N' }
                             ]
                         }
+                    },
+                    {
+                        header: 'View',
+                        name: 'view',
+                        align: 'center',
+                        text: 'V',
+                        width: 60,
+                        resizable: false
                     }
                 ],
                 data: loadPageData(1, rowsPerPage), // Load initial page data
@@ -263,7 +299,7 @@
                     saveData(grid.getData());
                     showToast('선택된 항목이 삭제되었습니다.', 'success');
                     updateDataCount();
-                    updatePagination(loadData().length, rowsPerPage);
+                    //updatePagination(loadData().length, rowsPerPage);
                 } else {
                     showToast('삭제할 항목이 선택되지 않았습니다.', 'warning');
                 }
@@ -301,17 +337,14 @@
                 const newRow = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
                 grid.prependRow(newRow, { focus: true });
 
-                grid.sort(null);
-
-                // Clear filtering
-                const filters = grid.getFilterState();
-                if (filters) {
-                    grid.clearAllFilters();
-                }
-
-                // Reset pagination to page 1
-                //pagination.movePageTo(1);
-                grid.pagination.movePageTo(1);
+                // grid.sort(null);
+                // // Clear filtering
+                // const filters = grid.getFilterState();
+                // if (filters) {
+                //     grid.clearAllFilters();
+                // }
+                // // Reset pagination to page 1
+                // grid.pagination.movePageTo(1);
 
                 saveData([...data, newRow]);
                 updateDataCount();
@@ -320,8 +353,14 @@
             grid.on('click', (ev) => {
                 const { columnName } = ev;
                 console.log(columnName);
+
                 if (ev.columnName === 'Key') {
                     showToast('자동 부여 Key 로 편집 불가 합니다.', 'info');
+                }
+
+                if (ev.columnName === 'view') {
+                    const row = grid.getRow(ev.Key);
+                    toggleModal(true, `Row Data: ${JSON.stringify(row)}`);
                 }
             });
 
@@ -336,6 +375,11 @@
             }
 
             initNew();
+
+            // Close modal
+            document.getElementById('closeModal').addEventListener('click', () => {
+                toggleModal(false);
+            });
         });
 
     </script>
