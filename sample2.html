@@ -51,8 +51,19 @@
             color: #bf4005 !important;
 
         }
-    </style>
 
+
+
+        .tui-grid-check-input {
+            width: 18px !important;
+            height: 18px !important;
+        }
+
+        input[type="checkbox"] {
+            width: 18px !important;
+            height: 18px !important;
+        }
+    </style>
 
     <style>
         .toast {
@@ -95,6 +106,37 @@
         }
     </style>
 
+    <style>
+        #modal>div {
+            width: 90%;
+            height: 90%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        #modal h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        #modal p {
+            flex-grow: 1;
+            overflow: auto;
+        }
+
+        #modal button {
+            align-self: flex-end;
+        }
+    </style>
+
+
+
 
 
 
@@ -119,7 +161,7 @@
             <div class="border-gray-200 rounded-lg">
                 <!-- Data count positioned above the grid on the left -->
                 <div class="flex justify-between items-center p-4">
-                    <div id="dataCount" class="text-sm text-gray-700"></div>
+                    <div id="dataCount" class="text-lg text-gray-700"></div>
                     <div class="flex justify-end mt-4 space-x-2">
                         <button id="newrow"
                             class="px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
@@ -137,7 +179,8 @@
 
                 </div>
                 <!-- The grid -->
-                <div id="grid" style="height: 580px;"></div>
+                <div id="grid" class="mx-auto" style="width: 100%; height: 90vh;"></div>
+
             </div>
 
 
@@ -146,31 +189,58 @@
         </div>
     </div>
 
-    <!-- Modal Popup -->
     <div id="modal"
         class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
-            <h2 class="text-lg font-semibold mb-4">Modal Popup</h2>
-            <p id="modalContent">You clicked on the View icon.</p>
+            <h2 class="text-lg font-semibold mb-4">Row Details</h2>
+            <form id="modalForm" class="space-y-4">
+                <!-- Form elements will be dynamically inserted here -->
+            </form>
             <button id="closeModal"
                 class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 mt-4">Close</button>
         </div>
     </div>
 
+
     <!-- //content -->
 
     <script>
 
-function toggleModal(show, content = '') {
-    const modal = document.getElementById('modal');
-    const modalContent = document.getElementById('modalContent');
-    if (show) {
-        modalContent.textContent = content; // Update content dynamically
-        modal.classList.remove('hidden');
-    } else {
-        modal.classList.add('hidden');
-    }
-}
+        function toggleModal(show, rowData = {}) {
+            const modal = document.getElementById('modal');
+            const modalForm = document.getElementById('modalForm');
+
+            if (show) {
+                // Clear the form
+                modalForm.innerHTML = '';
+
+                // Populate the form with row data
+                for (const [key, value] of Object.entries(rowData)) {
+                    const formGroup = document.createElement('div');
+                    formGroup.className = 'flex flex-col';
+
+                    const label = document.createElement('label');
+                    label.className = 'text-sm font-medium text-gray-700';
+                    label.textContent = key;
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'border rounded px-3 py-2 mt-1 text-gray-900';
+                    input.value = value;
+                    input.readOnly = true;
+
+                    formGroup.appendChild(label);
+                    formGroup.appendChild(input);
+                    modalForm.appendChild(formGroup);
+                }
+
+                modal.classList.remove('hidden'); // Show modal
+            } else {
+                modal.classList.add('hidden'); // Hide modal
+            }
+        }
+
+
         // Toast Functionality
         function showToast(message, type = 'success') {
             const toastContainer = document.getElementById('toast-container');
@@ -233,10 +303,32 @@ function toggleModal(show, content = '') {
                 localStorage.setItem('gridData', JSON.stringify(filteredData));
             }
 
+            class BadgeRenderer {
+                constructor(props) {
+                    const el = document.createElement('span');
+                    el.className = 'px-3 py-1 text-sm font-medium text-white bg-blue-500 rounded cursor-pointer hover:bg-blue-600';
+                    el.textContent = 'View';
+                    el.style.display = 'inline-block';
+                    el.style.textAlign = 'center';
+                    this.el = el;
+                    this.props = props;
+                }
+
+                getElement() {
+                    return this.el;
+                }
+
+                render(props) {
+                    this.props = props;
+                    // You can add any additional data binding logic here if needed
+                }
+            }
+
+
             // Initialize the grid
             const grid = new tui.Grid({
                 el: document.getElementById('grid'),
-                rowHeaders: ['checkbox', 'rowNum'],
+                rowHeaders: ['rowNum', 'checkbox'],
                 editingEvent: 'click',
                 scrollX: true,
                 scrollY: true,
@@ -244,8 +336,8 @@ function toggleModal(show, content = '') {
                     useClient: true,
                     perPage: rowsPerPage
                 },
-                rowHeight: 43,
-                minRowHeight: 43,
+                rowHeight: 45,
+                minRowHeight: 45,
                 columns: [
                     { header: 'Key', name: 'Key', width: 250, align: 'left', sortable: true, resizable: true, width: 100, minWidth: 80 }, // UUID column    
                     { header: '그룹코드', name: 'tpCd', editor: 'text', validation: { required: true }, sortable: true, filter: 'text', resizable: true, width: 150 },
@@ -272,6 +364,9 @@ function toggleModal(show, content = '') {
                         name: 'view',
                         align: 'center',
                         text: 'V',
+                        renderer: {
+                            type: BadgeRenderer // Use the custom renderer for the badge
+                        },
                         width: 60,
                         resizable: false
                     }
@@ -286,7 +381,16 @@ function toggleModal(show, content = '') {
 
 
             // Apply TUI Grid theme
-            tui.Grid.applyTheme('default');
+            tui.Grid.applyTheme('striped', {
+                cell: {
+                    head: {
+                        background: '#eeeeee'
+                    },
+                    evenRow: {
+                        background: '#f0f0f0'
+                    }
+                }
+            });
 
             // Initial update of data count
             updateDataCount();
@@ -337,30 +441,24 @@ function toggleModal(show, content = '') {
                 const newRow = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
                 grid.prependRow(newRow, { focus: true });
 
-                // grid.sort(null);
-                // // Clear filtering
-                // const filters = grid.getFilterState();
-                // if (filters) {
-                //     grid.clearAllFilters();
-                // }
-                // // Reset pagination to page 1
-                // grid.pagination.movePageTo(1);
+
 
                 saveData([...data, newRow]);
                 updateDataCount();
             });
 
             grid.on('click', (ev) => {
-                const { columnName } = ev;
+                const { columnName, rowKey } = ev;
+
                 console.log(columnName);
 
                 if (ev.columnName === 'Key') {
                     showToast('자동 부여 Key 로 편집 불가 합니다.', 'info');
                 }
 
-                if (ev.columnName === 'view') {
-                    const row = grid.getRow(ev.Key);
-                    toggleModal(true, `Row Data: ${JSON.stringify(row)}`);
+                if (columnName === 'view') {
+                    const row = grid.getRow(rowKey); // Get the row data
+                    toggleModal(true, row); // Pass the row data to the modal
                 }
             });
 
