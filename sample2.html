@@ -219,10 +219,10 @@
                 rowHeight: 43,
                 minRowHeight: 43,
                 columns: [
-                    { header: 'Key', name: 'Key', width: 250, align: 'left', sortable: true }, // UUID column    
-                    { header: '그룹코드', name: 'tpCd', editor: 'text', validation: { required: true, unique: true }, sortable: true, filter: 'text' },
-                    { header: '코드명', name: 'tpNm', editor: 'text', sortable: true, filter: 'text' },
-                    { header: '설명', name: 'descCntn', editor: 'text', sortable: true, filter: 'text' },
+                    { header: 'Key', name: 'Key', width: 250, align: 'left', sortable: true, resizable: true,width: 100,minWidth: 80  }, // UUID column    
+                    { header: '그룹코드', name: 'tpCd', editor: 'text', validation: { required: true, unique: true }, sortable: true, filter: 'text', resizable: true,width: 150  },
+                    { header: '코드명', name: 'tpNm', editor: 'text', sortable: true, filter: 'text', resizable: true, width: 200  },
+                    { header: '설명', name: 'descCntn', editor: 'text', sortable: true, filter: 'text', resizable: true,   },
                     {
                         header: '사용여부', name: 'useYn', width: 100, align: 'center',
                         editor: {
@@ -267,7 +267,18 @@
 
             // Save row functionality
             document.getElementById('saverow').addEventListener('click', function () {
-                saveData(grid.getData());
+
+                const data = grid.getData();
+                // Filter out rows without a Key value
+                const validData = data.filter(row => row.Key && row.Key.trim() !== '');
+
+                // if (validData.length < data.length) {
+                //     showToast('Key 값이 없는 항목은 저장되지 않았습니다.', 'warning');
+                // }
+
+                // Save only rows with valid Key values
+                saveData(validData);
+
                 showToast('데이터가 저장되었습니다.', 'success');
                 updateDataCount();
             });
@@ -280,15 +291,42 @@
                     showToast('1번행에 입력가능 합니다.', 'info');
                     return;
                 }
+
+
+
                 const newRow = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
                 grid.prependRow(newRow, { focus: true });
+
+                grid.sort(null);
+
+                // Clear filtering
+                const filters = grid.getFilterState();
+                if (filters) {
+                    grid.clearAllFilters();
+                }
+
+                // Reset pagination to page 1
+                //pagination.movePageTo(1);
+                grid.pagination.movePageTo(1);
+
                 saveData([...data, newRow]);
                 updateDataCount();
             });
 
+            grid.on('click', (ev) => {
+                const { columnName } = ev;
+                console.log(columnName);
+                if (ev.columnName === 'Key') {
+                    showToast('자동 부여 Key 로 편집 불가 합니다.', 'info');
+                }
+            });
+
+
+
+
             // Initialize a new row
             function initNew() {
-                const rowData = { tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
+                const rowData = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
                 grid.prependRow(rowData, { focus: true });
                 updateDataCount();
             }
