@@ -10,6 +10,7 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
+
     <script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
     <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
     <script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
@@ -169,7 +170,16 @@
             margin-right: 1rem;
             /* Optional: Adjust spacing between the button and title */
         }
+
+        #floatingNav button {
+            transition: transform 0.2s ease;
+        }
+
+        #floatingNav button:hover {
+            transform: scale(1.05);
+        }
     </style>
+
 
 
 </head>
@@ -240,25 +250,41 @@
 
             </div>
         </div>
+
+        <!-- Gear Icon -->
+        <button id="gearIcon" class="fixed bottom-4 right-4 bg-gray-800 text-white rounded-full p-3 shadow-lg z-50">
+            <i class="fas fa-cog"></i>
+        </button>
+
+        <!-- Floating Navigation Menu -->
+        <div id="floatingNav"
+            class="fixed bottom-4 right-4 bg-gray-800 text-white rounded-lg shadow-lg p-4 z-50 hidden space-y-2">
+            <div class="flex justify-between items-center">
+                <h3 class="text-white font-semibold">Menu</h3>
+                <button id="closeFloatingNav" class="text-white text-lg">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <button
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded flex items-center justify-center space-x-2">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded flex items-center justify-center space-x-2">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </button>
+            <button
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded flex items-center justify-center space-x-2">
+                <i class="fas fa-cogs"></i>
+                <span>Settings</span>
+            </button>
+        </div>
+
     </div>
 
-    <div id="floatingNav" class="fixed bottom-4 right-4 bg-gray-800 text-white rounded-lg shadow-lg p-4 z-50 space-y-2">
-        <button
-            class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded flex items-center justify-center space-x-2">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </button>
-        <button
-            class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded flex items-center justify-center space-x-2">
-            <i class="fas fa-info-circle"></i>
-            <span>About</span>
-        </button>
-        <button
-            class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded flex items-center justify-center space-x-2">
-            <i class="fas fa-cogs"></i>
-            <span>Settings</span>
-        </button>
-    </div>
+
 
 
     <div id="modal"
@@ -285,6 +311,17 @@
 
 
         document.addEventListener('DOMContentLoaded', function () {
+
+            document.getElementById('gearIcon').addEventListener('click', () => {
+                const floatingNav = document.getElementById('floatingNav');
+                floatingNav.classList.remove('hidden'); // Show the floating menu
+            });
+
+            document.getElementById('closeFloatingNav').addEventListener('click', () => {
+                const floatingNav = document.getElementById('floatingNav');
+                floatingNav.classList.add('hidden'); // Hide the floating menu
+            });
+
 
             document.getElementById('hamburgerButton').addEventListener('click', () => {
                 const offCanvas = document.getElementById('offCanvas');
