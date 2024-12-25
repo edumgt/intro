@@ -359,6 +359,7 @@
                             ]
                         }
                     },
+                    { header: '생성일시', name: 'createdAt', width: 200, align: 'center', sortable: true },
                     {
                         header: 'View',
                         name: 'view',
@@ -438,7 +439,10 @@
 
 
 
-                const newRow = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
+                const newRow = {
+                    Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y',
+                    createdAt: new Date().toLocaleString()
+                };
                 grid.prependRow(newRow, { focus: true });
 
 
@@ -467,7 +471,7 @@
 
             // Initialize a new row
             function initNew() {
-                const rowData = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y' };
+                const rowData = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y', createdAt: new Date().toLocaleString() };
                 grid.prependRow(rowData, { focus: true });
                 updateDataCount();
             }
