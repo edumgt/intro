@@ -14,7 +14,7 @@
 
     <style>
         .tui-grid-header-area {
-            background-color: #98b2e6 !important;
+            background-color: #4f7dd8 !important;
             color: #f5f6f8 !important;
             font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
                 Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
@@ -22,7 +22,7 @@
         }
 
         .tui-grid-cell {
-            background-color: transparent !important;
+            /* background-color: transparent !important; */
             font-size: 16px !important;
 
             color: #333 !important;
@@ -59,7 +59,32 @@
             width: 18px !important;
             height: 18px !important;
         }
+
+        .tui-grid-row {
+            border-bottom: 1px solid #cccccc !important;
+        }
+
+        .tui-grid-row:hover {
+            background-color: #f0f8ff !important;
+            border-bottom-color: #007aff !important;
+        }
+
+        .tui-grid-cell.tui-grid-cell-row-header {
+            background-color: #a6b0c4 !important;
+            /* Dark blue background */
+            color: #3b3b3f !important;
+            /* White text color */
+        }
+
+        .tui-grid-cell.tui-grid-cell-header {
+            background-color: #a6b0c4 !important; /* Dark blue background */
+            color: #3b3b3f !important; /* White text color */
+            border-bottom: 1px solid #3b3b3f !important; /* Optional: Border color */
+        }
     </style>
+    
+
+
 
     <style>
         .toast {
@@ -144,7 +169,7 @@
             </div>
             <div>
                 <!-- Data count positioned above the grid on the left -->
-                <div class="flex justify-between items-center p-2" >
+                <div class="flex justify-between items-center p-2">
                     <div id="dataCount" class="text-lg text-gray-700"></div>
                     <div class="flex justify-end mt-4 space-x-2">
                         <button id="newrow"
@@ -190,7 +215,7 @@
     <!-- //content -->
 
     <script>
-     
+
 
         document.addEventListener('DOMContentLoaded', function () {
 
@@ -317,17 +342,31 @@
 
 
 
-            // Apply TUI Grid theme
             tui.Grid.applyTheme('striped', {
                 cell: {
-                    head: {
-                        background: '#eeeeee'
+                    normal: {
+                        border: '#cccccc' // Set row border color
                     },
                     evenRow: {
-                        background: '#f0f0f0'
+                        background: '#f9f9f9' // Optional: Add background for even rows
+                    },
+                    hover: {
+                        border: '#007aff', // Optional: Border color on hover
+                        background: '#f0f8ff' // Optional: Background color on hover
+                    },
+                    head: {
+                        background: '#004080', // Set header background color (dark blue)
+                        border: '#cccccc', // Set header border color
+                        text: '#ffffff' // Set header text color (white)
                     }
+                },
+                rowHeader: {
+                    background: '#002855', // Dark blue background
+                    border: '#cccccc', // Optional: Row header border color
+                    text: '#ffffff' // Optional: White text color
                 }
             });
+
 
             // Initial update of data count
             updateDataCount();
@@ -488,20 +527,20 @@
             });
 
             // Toast Functionality
-        function showToast(message, type = 'success') {
-            const toastContainer = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type} show`;
-            toast.innerText = message;
+            function showToast(message, type = 'success') {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type} show`;
+                toast.innerText = message;
 
-            toastContainer.appendChild(toast);
+                toastContainer.appendChild(toast);
 
-            // Automatically remove the toast after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
+                // Automatically remove the toast after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
 
         });
 
