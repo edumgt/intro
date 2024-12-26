@@ -367,6 +367,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('saverow').classList.add('bg-gray-400', 'cursor-not-allowed');
         document.getElementById('saverow').classList.remove('bg-gray-800', 'hover:bg-gray-700');
 
+        showToast('검색 클릭 시 저장 기능은 비활성화 됩니다.');
+
     });
 
 });
