@@ -372,6 +372,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('resetSearch').addEventListener('click', function() {
+
+        const gridData = loadData();
+        
         // Reset search fields
         document.getElementById('groupCode').value = '';
         document.getElementById('codeName').value = '';
