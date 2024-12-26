@@ -161,3 +161,7 @@ input[type="checkbox"] {
     box-sizing: border-box;
     /* Ensures padding is included in the element's width */
 }
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}

@@ -342,14 +342,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('searchByDate').addEventListener('click', function () {
+
+        const gridData = loadData();
+
         const selectedDate = document.getElementById('datePicker').value;
-        const data = loadData();
-        //const data = grid.getData();
-        if (selectedDate) {
-            console.log(selectedDate.substring(0,10));
-            const filteredData = data.filter(row => row.createdAt.substring(0,10) === selectedDate.substring(0,10));
-            grid.resetData(filteredData);
-        }
+        const groupCode = document.getElementById('groupCode').value.toLowerCase();
+        const codeName = document.getElementById('codeName').value.toLowerCase();
+        const description = document.getElementById('description').value.toLowerCase();
+
+
+
+        const filteredData = gridData.filter(row => {
+            const matchesDate = selectedDate ? row.createdAt === selectedDate : true;
+            const matchesGroupCode = groupCode ? row.tpCd.toLowerCase().includes(groupCode) : true;
+            const matchesCodeName = codeName ? row.tpNm.toLowerCase().includes(codeName) : true;
+            const matchesDescription = description ? row.descCntn.toLowerCase().includes(description) : true;
+            return matchesDate && matchesGroupCode && matchesCodeName && matchesDescription;
+        });
+
+        grid.resetData(filteredData);
+
+        // Disable the Save button
+        document.getElementById('saverow').disabled = true;
+        document.getElementById('saverow').classList.add('bg-gray-400', 'cursor-not-allowed');
+        document.getElementById('saverow').classList.remove('bg-gray-800', 'hover:bg-gray-700');
 
     });
 
