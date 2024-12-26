@@ -53,6 +53,38 @@ document.addEventListener('DOMContentLoaded', function () {
         pagination.setItemsPerPage(perPage); // Set items per page
     }
 
+
+
+    // Fetch data from the server
+    //fetch('https://your-backend-api.com/data')
+    fetch('mock.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+                
+                
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Load data from the server
+            loadData(data);
+            // Save data to local storage
+            localStorage.setItem('gridData', JSON.stringify(data));
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            showToast('서버 데이타 로딩 중 오류 입니다.', 'error');
+            // Load data from local storage if server data is unavailable
+            const storedData = localStorage.getItem('gridData');
+            if (storedData) {
+                loadData(JSON.parse(storedData));
+            } else {
+                console.log('No data available in local storage');
+            }
+        });
+
+
     // Function to load paginated data
     function loadPageData(page, perPage) {
         const allData = loadData();
