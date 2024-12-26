@@ -22,18 +22,6 @@
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
-.tui-grid-cell.tui-grid-cell-has-focus {
-    background-color: transparent;
-    border-color: #df982e;
-}
-
-.tui-grid-cell.tui-grid-cell-invalid {
-    background-color: transparent;
-}
-
-.tui-grid-cell.tui-grid-cell-has-focus .tui-grid-cell-content {
-    color: #bf4005;
-}
 
 .tui-grid-check-input,
 input[type="checkbox"] {
@@ -41,26 +29,11 @@ input[type="checkbox"] {
     height: 18px;
 }
 
-.tui-grid-row:hover {
-    background-color: #f0f8ff;
-    border-bottom-color: #007aff;
-}
-
 .tui-grid-cell.tui-grid-cell-row-header,
 .tui-grid-cell.tui-grid-cell-header {
-    background-color: #a6b0c4;
-    color: #46464d;
-    /* border-bottom: 1px solid var(--border-color); */
-}
-
-.tui-grid-row {
-    border-bottom: 1px solid #8f8f8f;
-}
-
-.tui-grid-cell-editable input {
-    width: 100%;
-    padding: 1px;
-    box-sizing: border-box;
+    background-color: #e8eaee;
+    color: #2c2c30;
+    
 }
 
 .toast {
@@ -99,7 +72,7 @@ input[type="checkbox"] {
     background-color: #e53e3e;
 }
 
-#modal > div {
+#modal>div {
     width: 90%;
     height: 90%;
     background-color: white;
@@ -165,27 +138,28 @@ input[type="date"] {
     .flex-col {
         flex-direction: column;
     }
+
     .lg\:flex-row {
         flex-direction: row;
     }
+
     .lg\:mb-0 {
         margin-bottom: 0;
     }
+
     .lg\:space-y-0 {
         margin-bottom: 0;
     }
-    .lg\:space-x-2 > * + * {
+
+    .lg\:space-x-2>*+* {
         margin-left: 0.5rem;
     }
-    .flex-col > div {
+
+    .flex-col>div {
         padding: 10px 0;
     }
 }
 
 .relative .fa-calendar-alt {
     pointer-events: none;
-}
-
-.sortable-ghost {
-    opacity: 0.4;
 }
