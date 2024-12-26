@@ -151,7 +151,7 @@ function generateUUID() {
 
 
 
-    tui.Grid.applyTheme('striped');
+    //tui.Grid.applyTheme('striped');
 
 
     // Initial update of data count
@@ -198,7 +198,7 @@ function generateUUID() {
             })
             .catch((error) => {
                 console.error('Error:', error);
-                showToast('로컬 스토리지에 저장 하였으나, 원격 서버 데이터 저장에 실패했습니다.');
+                showToast('로컬 스토리지에 저장 하였으나, 원격 서버 데이터 저장에 실패했습니다.','warning');
 
             });
     });
@@ -446,7 +446,12 @@ function generateUUID() {
         showToast('신규, 저장 기능이 활성화 됩니다.');
     });
 
-
+    const rows = document.querySelectorAll('.tui-grid-rside-area .tui-grid-body-tbody tr');
+    if (rows.length > 0) {
+        const lastRow = rows[rows.length - 1];
+        lastRow.style.backgroundColor = '#fff'; // 마지막 행의 배경색
+        lastRow.style.borderBottom = '1px solid #8f8f8f'; // 마지막 행의 테두리 색
+    }
     
 
 });
