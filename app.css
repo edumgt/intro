@@ -1,6 +1,12 @@
-.tui-grid-header-area {
-    /* background-color: #4f7dd8 !important; */
-    /* color: #f5f6f8 !important; */
+/* Custom styles for TUI Grid header */
+.tui-grid-header {
+    background-color: #4a5568 !important; /* Dark gray background */
+    color: #ffffff !important; /* White text color */
+    font-weight: bold; /* Bold text */
+    text-align: center; /* Centered text */
+    border-bottom: 2px solid #2d3748 !important; /* Darker border */
+    border-radius: 10px 10px 0 0 !important; /* Rounded top corners */
+    overflow: hidden; /* Ensure rounded corners are visible */
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
         Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
@@ -218,4 +224,31 @@ input[type="date"] {
     /* Adjust padding to reduce height */
     height: calc(1.5em + 6px);
     /* Adjust height to reduce by 3px */
+}
+
+/* Media query for screens 1600px or less */
+@media (max-width: 1550px) {
+    .flex-col {
+        flex-direction: column;
+    }
+    .lg\\:flex-row {
+        flex-direction: row;
+    }
+    .lg\\:mb-0 {
+        margin-bottom: 0;
+    }
+    .lg\\:space-y-0 {
+        margin-bottom: 0;
+    }
+    .lg\\:space-x-2 > * + * {
+        margin-left: 0.5rem;
+    }
+    .flex-col > div {
+        padding: 10px 0; /* Add padding above and below each line */
+    }
+}
+
+/* Style for the date picker icon */
+.relative .fa-calendar-alt {
+    pointer-events: none; /* Prevent the icon from blocking input clicks */
 }

@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    new Pikaday({
+        field: document.getElementById('datePicker'),
+        format: 'YYYY-MM-DD',
+        toString(date, format) {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+        }
+    });
+
     document.getElementById('gearIcon').addEventListener('click', () => {
         const floatingNav = document.getElementById('floatingNav');
         floatingNav.classList.remove('hidden'); // Show the floating menu
@@ -126,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     ]
                 }
             },
-            { header: '생성일시', name: 'createdAt', width: 200, align: 'center', sortable: true },
+            { header: '생성일시', name: 'createdAt', width: 150, align: 'center', sortable: true },
             {
                 header: 'View',
                 name: 'view',
@@ -261,6 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function initNew() {
             const rowData = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y', createdAt: currentDate };
             grid.prependRow(rowData, { focus: true });
+            
             updateDataCount();
         }
 
@@ -386,7 +398,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('saverow').classList.add('bg-gray-400', 'cursor-not-allowed');
             document.getElementById('saverow').classList.remove('bg-gray-800', 'hover:bg-gray-700');
 
-            showToast('검색 클릭 시 저장 기능은 비활성화 됩니다.');
+            document.getElementById('newrow').disabled = true;
+            document.getElementById('newrow').classList.add('bg-gray-400', 'cursor-not-allowed');
+            document.getElementById('newrow').classList.remove('bg-gray-800', 'hover:bg-gray-700');
+
+            showToast('검색 클릭 시 신규, 저장 기능은 비활성화 됩니다.');
 
         });
 
@@ -408,6 +424,14 @@ document.addEventListener('DOMContentLoaded', function () {
             saveButton.disabled = false;
             saveButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
             saveButton.classList.add('bg-gray-800', 'hover:bg-gray-700');
+
+
+            const newButton = document.getElementById('newrow');
+            newButton.disabled = false;
+            newButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            newButton.classList.add('bg-gray-800', 'hover:bg-gray-700');
+
+            showToast('신규, 저장 기능이 활성화 됩니다.');
         });
 
     });
