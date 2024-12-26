@@ -1,6 +1,6 @@
 .tui-grid-header-area {
-    background-color: #4f7dd8 !important;
-    color: #f5f6f8 !important;
+    /* background-color: #4f7dd8 !important; */
+    /* color: #f5f6f8 !important; */
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
         Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
@@ -73,6 +73,11 @@ input[type="checkbox"] {
     border-bottom: 1px solid #8f8f8f !important;
 }
 
+.tui-grid-header .tui-grid-cell:last-child {
+    border-right: none !important;
+    /* Remove right border for the last cell */
+}
+
 .toast {
     position: fixed;
     top: 1rem;
@@ -92,13 +97,27 @@ input[type="checkbox"] {
 }
 
 @keyframes fadein {
-    from { top: 0; opacity: 0; }
-    to { top: 30px; opacity: 1; }
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 30px;
+        opacity: 1;
+    }
 }
 
 @keyframes fadeout {
-    from { top: 30px; opacity: 1; }
-    to { top: 0; opacity: 0; }
+    from {
+        top: 30px;
+        opacity: 1;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
 }
 
 .toast.show {
@@ -177,4 +196,26 @@ input[type="checkbox"] {
 
 .cursor-not-allowed {
     cursor: not-allowed;
+}
+
+/* Custom styles for buttons */
+button {
+    font-size: 15px;
+    /* Set font size for all buttons */
+}
+
+/* Custom styles for input elements */
+input[type="text"] {
+    padding: 5px;
+    /* Adjust padding to reduce height */
+    height: calc(1.5em + 6px);
+    /* Adjust height to reduce by 3px */
+}
+
+/* Custom styles for input elements */
+input[type="date"] {
+    padding: 5px;
+    /* Adjust padding to reduce height */
+    height: calc(1.5em + 6px);
+    /* Adjust height to reduce by 3px */
 }
