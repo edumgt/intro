@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
-                
-                
+
+
             }
             return response.json();
         })
@@ -191,30 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    tui.Grid.applyTheme('striped', {
-        cell: {
-            normal: {
-                border: '#000' // Set row border color
-            },
-            evenRow: {
-                background: '#f9f9f9' // Optional: Add background for even rows
-            },
-            hover: {
-                border: '#007aff', // Optional: Border color on hover
-                background: '#f0f8ff' // Optional: Background color on hover
-            },
-            head: {
-                background: '#004080', // Set header background color (dark blue)
-                border: '#cccccc', // Set header border color
-                text: '#ffffff' // Set header text color (white)
-            }
-        },
-        rowHeader: {
-            background: '#002855', // Dark blue background
-            border: '#cccccc', // Optional: Row header border color
-            text: '#ffffff' // Optional: White text color
-        }
-    });
+    tui.Grid.applyTheme('striped');
 
 
     // Initial update of data count
@@ -228,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function () {
             saveData(grid.getData());
             showToast('선택된 항목이 삭제되었습니다.', 'success');
             updateDataCount();
-            //updatePagination(loadData().length, rowsPerPage);
         } else {
             showToast('삭제할 항목이 선택되지 않았습니다.', 'warning');
         }
@@ -265,209 +241,220 @@ document.addEventListener('DOMContentLoaded', function () {
                 showToast('로컬 스토리지에 저장 하였으나, 원격 서버 데이터 저장에 실패했습니다.');
 
             });
-        });
+    });
 
-        // Add new row functionality
-        document.getElementById('newrow').addEventListener('click', function () {
-            const data = grid.getData();
-            const hasEmptyRow = data.some(row => row.tpCd === '' || row.tpNm === '');
-            if (hasEmptyRow) {
-                showToast('1번행에 입력가능 합니다.', 'info');
-                return;
-            }
-
-            const newRow = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y', createdAt: currentDate };
-            grid.prependRow(newRow, { focus: true });
-
-            saveData([...data, newRow]);
-            updateDataCount();
-        });
-
-        // Handle View Button Click in Grid
-        grid.on('click', (ev) => {
-            const { columnName, rowKey } = ev;
-
-            console.log("rowKey : " + rowKey);
-
-            if (columnName === 'view') {
-                const row = grid.getRow(rowKey); // Get the row data
-                toggleModal(true, row, rowKey); // Pass the row data and row key to the modal
-            }
-
-            if (ev.columnName === 'Key') {
-                showToast('자동 부여 Key 로 편집 불가 합니다.', 'info');
-            }
-        });
-
-
-        // Initialize a new row
-        function initNew() {
-            const rowData = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y', createdAt: currentDate };
-            grid.prependRow(rowData, { focus: true });
-            
-            updateDataCount();
+    // Add new row functionality
+    document.getElementById('newrow').addEventListener('click', function () {
+        const data = grid.getData();
+        const hasEmptyRow = data.some(row => row.tpCd === '' || row.tpNm === '');
+        if (hasEmptyRow) {
+            showToast('1번행에 입력가능 합니다.', 'info');
+            return;
         }
 
-        initNew();
+        const newRow = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y', createdAt: currentDate };
+        grid.prependRow(newRow, { focus: true });
 
-        // Close modal
-        document.getElementById('closeModal').addEventListener('click', () => {
-            toggleModal(false);
-        });
+        saveData([...data, newRow]);
+        updateDataCount();
+    });
 
+    // Handle View Button Click in Grid
+    grid.on('click', (ev) => {
+        const { columnName, rowKey } = ev;
 
-        let currentRowKey = null; // To track the current row being edited
+        console.log("rowKey : " + rowKey);
 
-        function toggleModal(show, rowData = {}, rowKey = null) {
-            const modal = document.getElementById('modal');
-            const modalForm = document.getElementById('modalForm');
-            currentRowKey = rowKey; // Store the row key
-
-            if (show) {
-                // Clear the form
-                modalForm.innerHTML = '';
-
-                // Populate the form with row data
-                for (const [key, value] of Object.entries(rowData)) {
-                    const formGroup = document.createElement('div');
-                    formGroup.className = 'flex flex-col';
-
-                    const label = document.createElement('label');
-                    label.className = 'text-sm font-medium text-gray-700';
-                    label.textContent = key;
-
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.className = 'border rounded px-3 py-2 mt-1 text-gray-900';
-                    input.name = key;
-                    input.value = value;
-
-                    formGroup.appendChild(label);
-                    formGroup.appendChild(input);
-                    modalForm.appendChild(formGroup);
-                }
-
-                modal.classList.remove('hidden'); // Show modal
-            } else {
-                modal.classList.add('hidden'); // Hide modal
-            }
+        if (columnName === 'view') {
+            const row = grid.getRow(rowKey); // Get the row data
+            toggleModal(true, row, rowKey); // Pass the row data and row key to the modal
         }
 
-        document.getElementById('saveModal').addEventListener('click', () => {
-            const modalForm = document.getElementById('modalForm');
-            const formData = new FormData(modalForm);
-            const updatedData = {};
-
-            // Collect updated values from the form
-            for (const [key, value] of formData.entries()) {
-                updatedData[key] = value;
-            }
-
-            if (currentRowKey !== null) {
-                // Update the grid's data
-                //grid.setValue(currentRowKey, 'Key', updatedData.Key);
-                grid.setValue(currentRowKey, 'tpCd', updatedData.tpCd);
-                grid.setValue(currentRowKey, 'tpNm', updatedData.tpNm);
-                grid.setValue(currentRowKey, 'descCntn', updatedData.descCntn);
-                grid.setValue(currentRowKey, 'useYn', updatedData.useYn);
-            }
-
-            // Hide the modal and show a success toast
-            toggleModal(false);
-            saveData(grid.getData());
-            showToast('해당 건의 데이타를 저장하였습니다.', 'success');
-        });
-
-        // Add event listener for the top-right close button
-        document.getElementById('closeModalTopRight').addEventListener('click', () => {
-            toggleModal(false);
-        });
-
-        // Add event listener for the bottom close button
-        document.getElementById('closeModal').addEventListener('click', () => {
-            toggleModal(false);
-        });
-
-        // Toast Functionality
-        function showToast(message, type = 'success') {
-            const toastContainer = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type} show`;
-            toast.innerText = message;
-
-            toastContainer.appendChild(toast);
-
-            // Automatically remove the toast after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+        if (ev.columnName === 'Key') {
+            showToast('자동 부여 Key 로 편집 불가 합니다.', 'info');
         }
+    });
 
-        document.getElementById('searchByDate').addEventListener('click', function () {
+    // 신규 입력 가능한 셀에 placeholder 설정
+    grid.on('editingStart', (ev) => {
 
-            const gridData = loadData();
-
-            const selectedDate = document.getElementById('datePicker').value;
-            const groupCode = document.getElementById('groupCode').value.toLowerCase();
-            const codeName = document.getElementById('codeName').value.toLowerCase();
-            const description = document.getElementById('description').value.toLowerCase();
-
-
-
-            const filteredData = gridData.filter(row => {
-                const matchesDate = selectedDate ? row.createdAt === selectedDate : true;
-                const matchesGroupCode = groupCode ? row.tpCd.toLowerCase().includes(groupCode) : true;
-                const matchesCodeName = codeName ? row.tpNm.toLowerCase().includes(codeName) : true;
-                const matchesDescription = description ? row.descCntn.toLowerCase().includes(description) : true;
-                return matchesDate && matchesGroupCode && matchesCodeName && matchesDescription;
-            });
-
-            grid.resetData(filteredData);
-
-            // Disable the Save button
-            document.getElementById('saverow').disabled = true;
-            document.getElementById('saverow').classList.add('bg-gray-400', 'cursor-not-allowed');
-            document.getElementById('saverow').classList.remove('bg-gray-800', 'hover:bg-gray-700');
-
-            document.getElementById('newrow').disabled = true;
-            document.getElementById('newrow').classList.add('bg-gray-400', 'cursor-not-allowed');
-            document.getElementById('newrow').classList.remove('bg-gray-800', 'hover:bg-gray-700');
-
-            showToast('검색 클릭 시 신규, 저장 기능은 비활성화 됩니다.');
-
-        });
-
-        document.getElementById('resetSearch').addEventListener('click', function () {
-
-            const gridData = loadData();
-
-            // Reset search fields
-            document.getElementById('groupCode').value = '';
-            document.getElementById('codeName').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('datePicker').value = '';
-
-            // Reset grid data
-            grid.resetData(gridData);
-
-            // Enable the Save button
-            const saveButton = document.getElementById('saverow');
-            saveButton.disabled = false;
-            saveButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
-            saveButton.classList.add('bg-gray-800', 'hover:bg-gray-700');
-
-
-            const newButton = document.getElementById('newrow');
-            newButton.disabled = false;
-            newButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
-            newButton.classList.add('bg-gray-800', 'hover:bg-gray-700');
-
-            showToast('신규, 저장 기능이 활성화 됩니다.');
-        });
-
-
-        
+        showToast('데이타 입력/수정 가능 합니다.', 'info');
 
     });
+
+    grid.on('editingFinish', (ev) => {
+        saveData(grid.getData());
+        showToast('데이타를 자동 저장하였습니다.', 'info');
+
+    });
+
+
+    // Initialize a new row
+    function initNew() {
+        const rowData = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y', createdAt: currentDate };
+        grid.prependRow(rowData, { focus: true });
+
+        updateDataCount();
+    }
+
+    initNew();
+
+    // Close modal
+    document.getElementById('closeModal').addEventListener('click', () => {
+        toggleModal(false);
+    });
+
+
+    let currentRowKey = null; // To track the current row being edited
+
+    function toggleModal(show, rowData = {}, rowKey = null) {
+        const modal = document.getElementById('modal');
+        const modalForm = document.getElementById('modalForm');
+        currentRowKey = rowKey; // Store the row key
+
+        if (show) {
+            // Clear the form
+            modalForm.innerHTML = '';
+
+            // Populate the form with row data
+            for (const [key, value] of Object.entries(rowData)) {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'flex flex-col';
+
+                const label = document.createElement('label');
+                label.className = 'text-sm font-medium text-gray-700';
+                label.textContent = key;
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'border rounded px-3 py-2 mt-1 text-gray-900';
+                input.name = key;
+                input.value = value;
+
+                formGroup.appendChild(label);
+                formGroup.appendChild(input);
+                modalForm.appendChild(formGroup);
+            }
+
+            modal.classList.remove('hidden'); // Show modal
+        } else {
+            modal.classList.add('hidden'); // Hide modal
+        }
+    }
+
+    document.getElementById('saveModal').addEventListener('click', () => {
+        const modalForm = document.getElementById('modalForm');
+        const formData = new FormData(modalForm);
+        const updatedData = {};
+
+        // Collect updated values from the form
+        for (const [key, value] of formData.entries()) {
+            updatedData[key] = value;
+        }
+
+        if (currentRowKey !== null) {
+            grid.setValue(currentRowKey, 'tpCd', updatedData.tpCd);
+            grid.setValue(currentRowKey, 'tpNm', updatedData.tpNm);
+            grid.setValue(currentRowKey, 'descCntn', updatedData.descCntn);
+            grid.setValue(currentRowKey, 'useYn', updatedData.useYn);
+        }
+
+        // Hide the modal and show a success toast
+        toggleModal(false);
+        saveData(grid.getData());
+        showToast('해당 건의 데이타를 저장하였습니다.', 'success');
+    });
+
+    // Add event listener for the top-right close button
+    document.getElementById('closeModalTopRight').addEventListener('click', () => {
+        toggleModal(false);
+    });
+
+    // Add event listener for the bottom close button
+    document.getElementById('closeModal').addEventListener('click', () => {
+        toggleModal(false);
+    });
+
+    // Toast Functionality
+    function showToast(message, type = 'success') {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type} show`;
+        toast.innerText = message;
+
+        toastContainer.appendChild(toast);
+
+        // Automatically remove the toast after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    document.getElementById('searchByDate').addEventListener('click', function () {
+
+        const gridData = loadData();
+
+        const selectedDate = document.getElementById('datePicker').value;
+        const groupCode = document.getElementById('groupCode').value.toLowerCase();
+        const codeName = document.getElementById('codeName').value.toLowerCase();
+        const description = document.getElementById('description').value.toLowerCase();
+
+
+
+        const filteredData = gridData.filter(row => {
+            const matchesDate = selectedDate ? row.createdAt === selectedDate : true;
+            const matchesGroupCode = groupCode ? row.tpCd.toLowerCase().includes(groupCode) : true;
+            const matchesCodeName = codeName ? row.tpNm.toLowerCase().includes(codeName) : true;
+            const matchesDescription = description ? row.descCntn.toLowerCase().includes(description) : true;
+            return matchesDate && matchesGroupCode && matchesCodeName && matchesDescription;
+        });
+
+        grid.resetData(filteredData);
+
+        // Disable the Save button
+        document.getElementById('saverow').disabled = true;
+        document.getElementById('saverow').classList.add('bg-gray-400', 'cursor-not-allowed');
+        document.getElementById('saverow').classList.remove('bg-gray-800', 'hover:bg-gray-700');
+
+        document.getElementById('newrow').disabled = true;
+        document.getElementById('newrow').classList.add('bg-gray-400', 'cursor-not-allowed');
+        document.getElementById('newrow').classList.remove('bg-gray-800', 'hover:bg-gray-700');
+
+        showToast('검색 클릭 시 신규, 저장 기능은 비활성화 됩니다.');
+
+    });
+
+    document.getElementById('resetSearch').addEventListener('click', function () {
+
+        const gridData = loadData();
+
+        // Reset search fields
+        document.getElementById('groupCode').value = '';
+        document.getElementById('codeName').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('datePicker').value = '';
+
+        // Reset grid data
+        grid.resetData(gridData);
+
+        // Enable the Save button
+        const saveButton = document.getElementById('saverow');
+        saveButton.disabled = false;
+        saveButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        saveButton.classList.add('bg-gray-800', 'hover:bg-gray-700');
+
+
+        const newButton = document.getElementById('newrow');
+        newButton.disabled = false;
+        newButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        newButton.classList.add('bg-gray-800', 'hover:bg-gray-700');
+
+        showToast('신규, 저장 기능이 활성화 됩니다.');
+    });
+
+
+
+
+});
 
