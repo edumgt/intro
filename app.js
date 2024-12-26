@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('gearIcon').addEventListener('click', () => {
@@ -34,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
     const currentDate = new Date().toLocaleDateString('ko-KR', options).replace(/[\.]/g, '-').replace(/[\s]/g, '').substring(0, 10);
-    console.log(currentDate); // This will output the date in 'YYYY-MM-DD' format
 
     let rowsPerPage = 20; // Default rows per page
 
@@ -200,10 +198,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Filter out rows without a Key value
         const validData = data.filter(row => row.Key && row.Key.trim() !== '');
 
-        // if (validData.length < data.length) {
-        //     showToast('Key 값이 없는 항목은 저장되지 않았습니다.', 'warning');
-        // }
-
         // Save only rows with valid Key values
         saveData(validData);
 
@@ -246,8 +240,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize a new row
     function initNew() {
-
-
         const rowData = { Key: generateUUID(), tpCd: '', tpNm: '', descCntn: '', useYn: 'Y', createdAt: currentDate };
         grid.prependRow(rowData, { focus: true });
         updateDataCount();
@@ -351,8 +343,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('searchByDate').addEventListener('click', function () {
         const selectedDate = document.getElementById('datePicker').value;
-        
-        const data = grid.getData();
+        const data = loadData();
+        //const data = grid.getData();
         if (selectedDate) {
             console.log(selectedDate.substring(0,10));
             const filteredData = data.filter(row => row.createdAt.substring(0,10) === selectedDate.substring(0,10));
