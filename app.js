@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
     tui.Grid.applyTheme('striped', {
         cell: {
             normal: {
-                border: '#cccccc' // Set row border color
+                border: '#000' // Set row border color
             },
             evenRow: {
                 background: '#f9f9f9' // Optional: Add background for even rows
@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('resetSearch').addEventListener('click', function() {
 
         const gridData = loadData();
-        
+
         // Reset search fields
         document.getElementById('groupCode').value = '';
         document.getElementById('codeName').value = '';
