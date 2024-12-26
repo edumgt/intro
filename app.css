@@ -1,164 +1,163 @@
+.tui-grid-header-area {
+    background-color: #4f7dd8 !important;
+    color: #f5f6f8 !important;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+        Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+}
 
-        .tui-grid-header-area {
-            background-color: #4f7dd8 !important;
-            color: #f5f6f8 !important;
-            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
-                Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
-                "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
-        }
+.tui-grid-cell {
+    /* background-color: transparent !important; */
+    font-size: 16px !important;
 
-        .tui-grid-cell {
-            /* background-color: transparent !important; */
-            font-size: 16px !important;
+    color: #333 !important;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+        Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
 
-            color: #333 !important;
-            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
-                Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
-                "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+}
 
-        }
+/* Remove default yellow/pink backgrounds in TUI Grid */
+.tui-grid-cell.tui-grid-cell-has-focus {
+    background-color: transparent !important;
+    border-color: #3182ce !important;
+}
 
-        /* Remove default yellow/pink backgrounds in TUI Grid */
-        .tui-grid-cell.tui-grid-cell-has-focus {
-            background-color: transparent !important;
-            border-color: #3182ce !important;
-        }
-
-        .tui-grid-cell.tui-grid-cell-invalid {
-            background-color: transparent !important;
-        }
-
-
-        .tui-grid-cell.tui-grid-cell-has-focus .tui-grid-cell-content {
-            color: #bf4005 !important;
-
-        }
+.tui-grid-cell.tui-grid-cell-invalid {
+    background-color: transparent !important;
+}
 
 
+.tui-grid-cell.tui-grid-cell-has-focus .tui-grid-cell-content {
+    color: #bf4005 !important;
 
-        .tui-grid-check-input {
-            width: 18px !important;
-            height: 18px !important;
-        }
+}
 
-        input[type="checkbox"] {
-            width: 18px !important;
-            height: 18px !important;
-        }
 
-        .tui-grid-row {
-            border-bottom: 1px solid #cccccc !important;
-        }
 
-        .tui-grid-row:hover {
-            background-color: #f0f8ff !important;
-            border-bottom-color: #007aff !important;
-        }
+.tui-grid-check-input {
+    width: 18px !important;
+    height: 18px !important;
+}
 
-        .tui-grid-cell.tui-grid-cell-row-header {
-            background-color: #a6b0c4 !important;
-            /* Dark blue background */
-            color: #3b3b3f !important;
-            /* White text color */
-        }
+input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+}
 
-        .tui-grid-cell.tui-grid-cell-header {
-            background-color: #a6b0c4 !important;
-            /* Dark blue background */
-            color: #3b3b3f !important;
-            /* White text color */
-            border-bottom: 1px solid #3b3b3f !important;
-            /* Optional: Border color */
-        }
+.tui-grid-row {
+    border-bottom: 1px solid #cccccc !important;
+}
 
-        .toast {
-            position: fixed;
-            top: 1rem;
-            /* Move to the top of the screen */
-            right: 1rem;
-            /* Align to the right */
-            min-width: 200px;
-            padding: 1rem;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #fff;
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(-20px);
-            /* Adjust animation direction for top placement */
-            transition: opacity 0.3s, transform 0.3s;
-        }
+.tui-grid-row:hover {
+    background-color: #f0f8ff !important;
+    border-bottom-color: #007aff !important;
+}
 
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
+.tui-grid-cell.tui-grid-cell-row-header {
+    background-color: #a6b0c4 !important;
+    /* Dark blue background */
+    color: #3b3b3f !important;
+    /* White text color */
+}
 
-        .toast-success {
-            background-color: #38a169;
-        }
+.tui-grid-cell.tui-grid-cell-header {
+    background-color: #a6b0c4 !important;
+    /* Dark blue background */
+    color: #3b3b3f !important;
+    /* White text color */
+    border-bottom: 1px solid #3b3b3f !important;
+    /* Optional: Border color */
+}
 
-        .toast-warning {
-            background-color: #dd6b20;
-        }
+.toast {
+    position: fixed;
+    top: 1rem;
+    /* Move to the top of the screen */
+    right: 1rem;
+    /* Align to the right */
+    min-width: 200px;
+    padding: 1rem;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #fff;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-20px);
+    /* Adjust animation direction for top placement */
+    transition: opacity 0.3s, transform 0.3s;
+}
 
-        .toast-info {
-            background-color: #3182ce;
-        }
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-        .toast-error {
-            background-color: #e53e3e;
-        }
- 
-        #modal>div {
-            width: 90%;
-            height: 90%;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            overflow: auto;
-        }
+.toast-success {
+    background-color: #38a169;
+}
 
-        #modal h2 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
+.toast-warning {
+    background-color: #dd6b20;
+}
 
-        #modal p {
-            flex-grow: 1;
-            overflow: auto;
-        }
+.toast-info {
+    background-color: #3182ce;
+}
 
-        #modal button {
-            align-self: flex-end;
-        }
-   
-        #offCanvas {
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-        }
+.toast-error {
+    background-color: #e53e3e;
+}
 
-        #hamburgerButton {
-            margin-right: 1rem;
-            /* Optional: Adjust spacing between the button and title */
-        }
+#modal>div {
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
 
-        #floatingNav button {
-            transition: transform 0.2s ease;
-        }
+#modal h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
 
-        #floatingNav button:hover {
-            transform: scale(1.05);
-        }
+#modal p {
+    flex-grow: 1;
+    overflow: auto;
+}
 
-        #content {
-            padding-left: 40px;
-            padding-right: 15px;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            box-sizing: border-box; /* Ensures padding is included in the element's width */
-        }
-   
+#modal button {
+    align-self: flex-end;
+}
+
+#offCanvas {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+#hamburgerButton {
+    margin-right: 1rem;
+    /* Optional: Adjust spacing between the button and title */
+}
+
+#floatingNav button {
+    transition: transform 0.2s ease;
+}
+
+#floatingNav button:hover {
+    transform: scale(1.05);
+}
+
+#content {
+    padding-left: 40px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+    /* Ensures padding is included in the element's width */
+}
