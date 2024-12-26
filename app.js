@@ -1,63 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    new Pikaday({
-        field: document.getElementById('datePicker'),
-        format: 'YYYY-MM-DD',
-        toString(date, format) {
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
-            return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-        }
+// UUID Generator Function
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = (Math.random() * 16) | 0,
+            v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
     });
-
-    document.getElementById('gearIcon').addEventListener('click', () => {
-        const floatingNav = document.getElementById('floatingNav');
-        floatingNav.classList.remove('hidden'); // Show the floating menu
-    });
-
-    document.getElementById('closeFloatingNav').addEventListener('click', () => {
-        const floatingNav = document.getElementById('floatingNav');
-        floatingNav.classList.add('hidden'); // Hide the floating menu
-    });
-
-
-    document.getElementById('hamburgerButton').addEventListener('click', () => {
-        const offCanvas = document.getElementById('offCanvas');
-        offCanvas.classList.remove('hidden', '-translate-x-full'); // Show the off-canvas menu
-    });
-
-    document.getElementById('closeOffCanvas').addEventListener('click', () => {
-        const offCanvas = document.getElementById('offCanvas');
-        offCanvas.classList.add('-translate-x-full'); // Hide the off-canvas menu
-    });
-
-
-    // UUID Generator Function
-    function generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            const r = (Math.random() * 16) | 0,
-                v = c === 'x' ? r : (r & 0x3) | 0x8;
-            return v.toString(16);
-        });
-    }
-
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const currentDate = new Date().toLocaleDateString('ko-KR', options).replace(/[\.]/g, '-').replace(/[\s]/g, '').substring(0, 10);
-
-    let rowsPerPage = 20; // Default rows per page
-
-    // Function to update pagination
-    function updatePagination(totalItems, perPage) {
-        pagination.reset(totalItems); // Reset pagination with the updated total items
-        pagination.setItemsPerPage(perPage); // Set items per page
-    }
-
-
+}
+    
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const currentDate = new Date().toLocaleDateString('ko-KR', options).replace(/[\.]/g, '-').replace(/[\s]/g, '').substring(0, 10);
+    
+        let rowsPerPage = 20; // Default rows per page
 
     // Fetch data from the server
-    //fetch('https://your-backend-api.com/data')
-    fetch('mock.json')
+    fetch('https://your-backend-api.com/data')
+        //fetch('mock.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -73,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('gridData', JSON.stringify(data));
         })
         .catch(error => {
-            console.error('Fetch error:', error);
+            
             showToast('서버 데이타 로딩 중 오류 입니다.', 'error');
             // Load data from local storage if server data is unavailable
             const storedData = localStorage.getItem('gridData');
@@ -150,11 +109,11 @@ document.addEventListener('DOMContentLoaded', function () {
         minRowHeight: 45,
         columns: [
             { header: 'Key', name: 'Key', width: 250, align: 'left', sortable: true, resizable: true, width: 100, minWidth: 80 }, // UUID column    
-            { header: '그룹코드', name: 'tpCd', editor: 'text', validation: { required: true }, sortable: true, filter: 'text', resizable: true, width: 150 },
-            { header: '코드명', name: 'tpNm', editor: 'text', sortable: true, filter: 'text', resizable: true, width: 200 },
-            { header: '설명', name: 'descCntn', editor: 'text', sortable: true, filter: 'text', resizable: true, },
+            { header: 'Group', name: 'tpCd', editor: 'text', validation: { required: true }, sortable: true, filter: 'text', resizable: true, width: 150 },
+            { header: 'Name', name: 'tpNm', editor: 'text', sortable: true, filter: 'text', resizable: true, width: 200 },
+            { header: 'Desc.', name: 'descCntn', editor: 'text', sortable: true, filter: 'text', resizable: true, },
             {
-                header: '사용여부', name: 'useYn', width: 100, align: 'center',
+                header: 'UseYN', name: 'useYn', width: 100, align: 'center',
                 editor: {
                     type: 'select',
                     options: { listItems: [{ text: 'Y', value: 'Y' }, { text: 'N', value: 'N' }] }
@@ -169,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     ]
                 }
             },
-            { header: '생성일시', name: 'createdAt', width: 150, align: 'center', sortable: true },
+            { header: 'CreateDT', name: 'createdAt', width: 150, align: 'center', sortable: true },
             {
                 header: 'View',
                 name: 'view',
@@ -186,7 +145,8 @@ document.addEventListener('DOMContentLoaded', function () {
         columnOptions: {
             frozenCount: 2, // Freeze 3 left most columns and 
             frozenBorderWidth: 2 // set the border width of frozen columns to be 2px.
-        }
+        },
+        draggable: true
     });
 
 
@@ -305,6 +265,72 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+    new Pikaday({
+        field: document.getElementById('datePicker'),
+        format: 'YYYY-MM-DD',
+        toString(date, format) {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+        }
+    });
+
+    document.getElementById('gearIcon').addEventListener('click', () => {
+        const floatingNav = document.getElementById('floatingNav');
+        floatingNav.classList.remove('hidden'); // Show the floating menu
+    });
+
+    document.getElementById('closeFloatingNav').addEventListener('click', () => {
+        const floatingNav = document.getElementById('floatingNav');
+        floatingNav.classList.add('hidden'); // Hide the floating menu
+    });
+
+
+    document.getElementById('hamburgerButton').addEventListener('click', () => {
+        const offCanvas = document.getElementById('offCanvas');
+        offCanvas.classList.remove('hidden', '-translate-x-full'); // Show the off-canvas menu
+    });
+
+    document.getElementById('closeOffCanvas').addEventListener('click', () => {
+        const offCanvas = document.getElementById('offCanvas');
+        offCanvas.classList.add('-translate-x-full'); // Hide the off-canvas menu
+    });
+
+
+    document.getElementById('saveModal').addEventListener('click', () => {
+        const modalForm = document.getElementById('modalForm');
+        const formData = new FormData(modalForm);
+        const updatedData = {};
+
+        // Collect updated values from the form
+        for (const [key, value] of formData.entries()) {
+            updatedData[key] = value;
+        }
+
+        if (currentRowKey !== null) {
+            grid.setValue(currentRowKey, 'tpCd', updatedData.tpCd);
+            grid.setValue(currentRowKey, 'tpNm', updatedData.tpNm);
+            grid.setValue(currentRowKey, 'descCntn', updatedData.descCntn);
+            grid.setValue(currentRowKey, 'useYn', updatedData.useYn);
+        }
+
+        // Hide the modal and show a success toast
+        toggleModal(false);
+        saveData(grid.getData());
+        showToast('해당 건의 데이타를 저장하였습니다.', 'success');
+    });
+
+    // Add event listener for the top-right close button
+    document.getElementById('closeModalTopRight').addEventListener('click', () => {
+        toggleModal(false);
+    });
+
+    // Add event listener for the bottom close button
+    document.getElementById('closeModal').addEventListener('click', () => {
+        toggleModal(false);
+    });
+
     let currentRowKey = null; // To track the current row being edited
 
     function toggleModal(show, rowData = {}, rowKey = null) {
@@ -341,39 +367,6 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.classList.add('hidden'); // Hide modal
         }
     }
-
-    document.getElementById('saveModal').addEventListener('click', () => {
-        const modalForm = document.getElementById('modalForm');
-        const formData = new FormData(modalForm);
-        const updatedData = {};
-
-        // Collect updated values from the form
-        for (const [key, value] of formData.entries()) {
-            updatedData[key] = value;
-        }
-
-        if (currentRowKey !== null) {
-            grid.setValue(currentRowKey, 'tpCd', updatedData.tpCd);
-            grid.setValue(currentRowKey, 'tpNm', updatedData.tpNm);
-            grid.setValue(currentRowKey, 'descCntn', updatedData.descCntn);
-            grid.setValue(currentRowKey, 'useYn', updatedData.useYn);
-        }
-
-        // Hide the modal and show a success toast
-        toggleModal(false);
-        saveData(grid.getData());
-        showToast('해당 건의 데이타를 저장하였습니다.', 'success');
-    });
-
-    // Add event listener for the top-right close button
-    document.getElementById('closeModalTopRight').addEventListener('click', () => {
-        toggleModal(false);
-    });
-
-    // Add event listener for the bottom close button
-    document.getElementById('closeModal').addEventListener('click', () => {
-        toggleModal(false);
-    });
 
     // Toast Functionality
     function showToast(message, type = 'success') {
@@ -454,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-
+    
 
 });
 

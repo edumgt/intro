@@ -50,7 +50,7 @@ input[type="checkbox"] {
 .tui-grid-cell.tui-grid-cell-header {
     background-color: #a6b0c4;
     color: #46464d;
-    border-bottom: 1px solid var(--border-color);
+    /* border-bottom: 1px solid var(--border-color); */
 }
 
 .tui-grid-row {
@@ -185,3 +185,4 @@ input[type="date"] {
 .relative .fa-calendar-alt {
     pointer-events: none;
 }
+
