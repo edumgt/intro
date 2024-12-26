@@ -371,5 +371,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+    document.getElementById('resetSearch').addEventListener('click', function() {
+        // Reset search fields
+        document.getElementById('groupCode').value = '';
+        document.getElementById('codeName').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('datePicker').value = '';
+    
+        // Reset grid data
+        grid.resetData(gridData);
+    
+        // Enable the Save button
+        const saveButton = document.getElementById('saverow');
+        saveButton.disabled = false;
+        saveButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        saveButton.classList.add('bg-gray-800', 'hover:bg-gray-700');
+    });
+
 });
 
