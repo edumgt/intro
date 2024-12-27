@@ -1,31 +1,61 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const memberIcon = document.getElementById('memberIcon');
+    const logoutModal = document.getElementById('logoutModal');
+    const confirmLogout = document.getElementById('confirmLogout');
+    const cancelLogout = document.getElementById('cancelLogout');
+    let isLoggedIn = true;
+
+    memberIcon.addEventListener('click', function () {
+        if (isLoggedIn) {
+            logoutModal.classList.remove('hidden');
+        } else {
+            logoutModal.classList.remove('hidden');
+        }
+    });
 
 
-            const logoutModal = document.getElementById('logoutModal');
-            const confirmLogout = document.getElementById('confirmLogout');
-            const cancelLogout = document.getElementById('cancelLogout');
-            let isLoggedIn = true;
+    confirmLogout.addEventListener('click', function () {
+        isLoggedIn = false;
+        memberIcon.innerHTML = '<i class="fas fa-user"></i>';
+        logoutModal.classList.add('hidden');
+    });
 
-            memberIcon.addEventListener('click', function () {
-                if (isLoggedIn) {
-                    logoutModal.classList.remove('hidden');
-                } else {
-                    logoutModal.classList.remove('hidden');
-                }
-            });
+    cancelLogout.addEventListener('click', function () {
+        logoutModal.classList.add('hidden');
+    });
 
+    const offCanvas = document.getElementById('offCanvas');
+    const hamburgerButton = document.getElementById('hamburgerButton');
+    // const closeOffCanvas = document.getElementById('closeOffCanvas');
+    const expandOffCanvas = document.getElementById('expandOffCanvas');
+    const collapseOffCanvas = document.getElementById('collapseOffCanvas');
 
-            confirmLogout.addEventListener('click', function () {
-                isLoggedIn = false;
-                memberIcon.innerHTML = '<i class="fas fa-user"></i>';
-                logoutModal.classList.add('hidden');
-            });
+    hamburgerButton.addEventListener('click', function () {
+        offCanvas.classList.toggle('hidden');
+        offCanvas.classList.toggle('transform');
+        offCanvas.classList.toggle('-translate-x-full');
+        offCanvas.classList.add('expanded');
+        expandOffCanvas.classList.add('hidden'); 
+    });
 
-            cancelLogout.addEventListener('click', function () {
-                logoutModal.classList.add('hidden');
-            });
+    // closeOffCanvas.addEventListener('click', function() {
+    //     offCanvas.classList.add('collapsed');
+    //     offCanvas.classList.remove('expanded');
+    // });
+
+    expandOffCanvas.addEventListener('click', function () {
+        offCanvas.classList.remove('collapsed');
+        offCanvas.classList.add('expanded');
+        expandOffCanvas.classList.add('hidden');
+    });
+
+    collapseOffCanvas.addEventListener('click', function () {
+        offCanvas.classList.add('collapsed');
+        offCanvas.classList.remove('expanded');
+        collapseOffCanvas.classList.add('hidden');
+
+    });
 
     // UUID Generator Function
     function generateUUID() {
@@ -319,10 +349,10 @@ document.addEventListener('DOMContentLoaded', function () {
         offCanvas.classList.remove('hidden', '-translate-x-full'); // Show the off-canvas menu
     });
 
-    document.getElementById('closeOffCanvas').addEventListener('click', () => {
-        const offCanvas = document.getElementById('offCanvas');
-        offCanvas.classList.add('-translate-x-full'); // Hide the off-canvas menu
-    });
+    // document.getElementById('closeOffCanvas').addEventListener('click', () => {
+    //     const offCanvas = document.getElementById('offCanvas');
+    //     offCanvas.classList.add('-translate-x-full'); // Hide the off-canvas menu
+    // });
 
 
     document.getElementById('saveModal').addEventListener('click', () => {

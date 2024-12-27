@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
@@ -24,19 +25,23 @@
 
     <div id="offCanvas"
         class="fixed top-0 left-0 h-full w-64 bg-gray-800 text-white hidden transform -translate-x-full transition-transform duration-300 z-50">
+
         <div class="flex flex-col h-full">
-            <div class="flex justify-between items-center p-4">
-                <h3 class="text-lg font-semibold">Menu</h3>
-                <button id="closeOffCanvas" class="text-white text-xl"><i class="fas fa-chevron-left"></i></button>
-            </div>
-            <ul class="flex-grow p-4 space-y-2">
-                <li><a href="#" class="block text-gray-200 hover:text-white">Home</a></li>
-                <li><a href="#" class="block text-gray-200 hover:text-white">About</a></li>
-                <li><a href="#" class="block text-gray-200 hover:text-white">Services</a></li>
-                <li><a href="#" class="block text-gray-200 hover:text-white">Contact</a></li>
+            <ul class="flex-grow p-4 space-y-4">
+                <li><a href="#" class="menu-item block text-gray-200 hover:text-white text-center"><i class="fas fa-home menu-icon"></i><span
+                            class="menu-text">Home</span></a></li>
+                <li><a href="#" class="menu-item block text-gray-200 hover:text-white text-center"><i
+                            class="fas fa-info-circle menu-icon"></i><span class="menu-text">About</span></a></li>
+                <li><a href="#" class="menu-item block text-gray-200 hover:text-white text-center"><i class="fas fa-cogs menu-icon"></i><span
+                            class="menu-text">Services</span></a></li>
+                <li><a href="#" class="menu-item block text-gray-200 hover:text-white text-center"><i
+                            class="fas fa-envelope menu-icon"></i><span class="menu-text">Contact</span></a></li>
             </ul>
-            <div class="p-4">
-                <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">Logout</button>
+
+            <div class="flex flex-col  space-y-4 pb-4">
+                <!-- <button id="closeOffCanvas" class="text-white text-xl"><i class="fas fa-times"></i></button> -->
+                <button id="expandOffCanvas" class="text-white text-xl"><i class="fas fa-chevron-right"></i></button>
+                <button id="collapseOffCanvas" class="text-white text-xl"><i class="fas fa-chevron-left"></i></button>
             </div>
         </div>
     </div>
@@ -66,42 +71,51 @@
                 <div>
 
                     <!-- Flex container for Total Rows, search fields, and buttons -->
-                <div class="flex flex-col lg:flex-row justify-between items-center p-2">
-                    <div id="dataCount" class="text-lg text-gray-700 mb-2 lg:mb-0">Total Rows:</div>
-                    <div class="flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-2">
-                        <div class="flex items-center space-x-2">
-                            <input type="text" id="groupCode" placeholder="Group Code" class="border border-gray-300 rounded p-2">
-                            <input type="text" id="codeName" placeholder="Code Name" class="border border-gray-300 rounded p-2">
-                            <input type="text" id="description" placeholder="Description" class="border border-gray-300 rounded p-2">
-                            <div class="relative">
-                                <input type="text" id="datePicker" class="border border-gray-300 rounded p-2 pl-10">
-                                <i class="fas fa-calendar-alt absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                    <div class="flex flex-col lg:flex-row justify-between items-center p-2">
+                        <div id="dataCount" class="text-lg text-gray-700 mb-2 lg:mb-0">Total Rows:</div>
+                        <div class="flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-2">
+                            <div class="flex items-center space-x-2">
+                                <input type="text" id="groupCode" placeholder="Group Code"
+                                    class="border border-gray-300 rounded p-2">
+                                <input type="text" id="codeName" placeholder="Code Name"
+                                    class="border border-gray-300 rounded p-2">
+                                <input type="text" id="description" placeholder="Description"
+                                    class="border border-gray-300 rounded p-2">
+                                <div class="relative">
+                                    <input type="text" id="datePicker" class="border border-gray-300 rounded p-2 pl-10">
+                                    <i
+                                        class="fas fa-calendar-alt absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button id="searchByDate"
+                                    class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
+                                    <i class="fas fa-search"></i>
+                                    <span>검색</span>
+                                </button>
+                                <button id="resetSearch"
+                                    class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
+                                    <i class="fas fa-undo"></i>
+                                    <span>검색 초기화</span>
+                                </button>
+                                <button id="newrow"
+                                    class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
+                                    <i class="fas fa-plus"></i>
+                                    <span>신규</span>
+                                </button>
+                                <button id="delrow"
+                                    class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
+                                    <i class="fas fa-trash"></i>
+                                    <span>삭제</span>
+                                </button>
+                                <button id="saverow"
+                                    class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
+                                    <i class="fas fa-save"></i>
+                                    <span>저장</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <button id="searchByDate" class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
-                                <i class="fas fa-search"></i>
-                                <span>검색</span>
-                            </button>
-                            <button id="resetSearch" class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
-                                <i class="fas fa-undo"></i>
-                                <span>검색 초기화</span>
-                            </button>
-                            <button id="newrow" class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
-                                <i class="fas fa-plus"></i>
-                                <span>신규</span>
-                            </button>
-                            <button id="delrow" class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
-                                <i class="fas fa-trash"></i>
-                                <span>삭제</span>
-                            </button>
-                            <button id="saverow" class="flex items-center space-x-2 px-4 py-1.5 text-white font-medium rounded bg-gray-800 hover:bg-gray-700">
-                                <i class="fas fa-save"></i>
-                                <span>저장</span>
-                            </button>
-                        </div>
                     </div>
-                </div>
                     <!-- The grid -->
                     <div id="grid" class="mx-auto" style="width: 100%; height: 80vh;"></div>
                 </div>
@@ -148,13 +162,13 @@
     <div id="modal"
         class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-1/3 relative">
-            
+
             <button id="closeModalTopRight" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-lg">
                 &times;
             </button>
             <h2 class="text-lg font-semibold mb-4">Edit Row Details</h2>
             <form id="modalForm" class="space-y-4">
-                
+
             </form>
             <div class="flex justify-end space-x-2 mt-4">
                 <button id="saveModal" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
@@ -165,17 +179,20 @@
     </div>
 
     <!-- Logout Confirmation Modal -->
-    <div id="logoutModal" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div id="logoutModal"
+        class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-1/3 relative">
             <h2 class="text-lg font-semibold mb-4">로그아웃 하시겠습니까?</h2>
             <div class="flex justify-end space-x-2 mt-4">
-                <button id="confirmLogout" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
-                <button id="cancelLogout" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700">Cancel</button>
+                <button id="confirmLogout"
+                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
+                <button id="cancelLogout"
+                    class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700">Cancel</button>
             </div>
         </div>
     </div>
 
-    
+
 
     <script type="text/javascript" src="app.js"></script>
 

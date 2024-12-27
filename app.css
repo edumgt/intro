@@ -1,6 +1,8 @@
 :root {
-    --primary-color: #4a5568;
-    --secondary-color: #2d3748;
+    --primary-color: #0058a3;
+    /* IKEA Blue */
+    --secondary-color: #ffcc00;
+    /* IKEA Yellow */
     --text-color: #ffffff;
     --border-color: #3b3b3f;
 }
@@ -33,19 +35,23 @@ input[type="checkbox"] {
 .tui-grid-cell.tui-grid-cell-header {
     background-color: #e8eaee;
     color: #2c2c30;
-    
+
 }
 
 /* 모든 행에 동일한 스타일 적용 */
 .tui-grid-row {
-    background-color: #fff !important; /* 기본 배경색 */
-    border-bottom: 1px solid #8f8f8f !important; /* 기본 테두리 색 */
+    background-color: #fff !important;
+    /* 기본 배경색 */
+    border-bottom: 1px solid #8f8f8f !important;
+    /* 기본 테두리 색 */
 }
 
 /* 마지막 행에 추가 스타일 적용 */
 .tui-grid-row:last-child {
-    background-color: #fff !important; /* 마지막 행의 배경색 */
-    border-bottom: 1px solid #8f8f8f !important; /* 마지막 행의 테두리 색 */
+    background-color: #fff !important;
+    /* 마지막 행의 배경색 */
+    border-bottom: 1px solid #8f8f8f !important;
+    /* 마지막 행의 테두리 색 */
 }
 
 .toast {
@@ -128,8 +134,8 @@ input[type="checkbox"] {
 }
 
 #content {
-    padding: 15px 15px 15px 40px;
-    /* box-sizing: border-box; */
+    padding: 15px 40px 10px 70px;
+    box-sizing: border-box;
 }
 
 .cursor-not-allowed {
@@ -174,4 +180,63 @@ input[type="date"] {
 
 .relative .fa-calendar-alt {
     pointer-events: none;
+}
+
+.collapsed {
+    width: 64px;
+}
+
+.collapsed .menu-text {
+    display: none;
+}
+
+.collapsed .menu-icon {
+    display: block;
+    font-size: 24px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* .collapsed #closeOffCanvas,
+.collapsed #expandOffCanvas,
+.collapsed #collapseOffCanvas {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    margin-bottom: 10px;
+} */
+
+.collapsed #expandOffCanvas {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    margin-bottom: 10px;
+}
+
+.expanded #expandOffCanvas {
+    display: none;
+}
+
+.expanded #collapseOffCanvas {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.menu-item i {
+    margin-right: 10px;
+}
+
+.menu-item.collapsed i {
+    margin-right: 0;
 }
