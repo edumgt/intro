@@ -1,18 +1,45 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-// UUID Generator Function
-function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        const r = (Math.random() * 16) | 0,
-            v = c === 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-    });
-}
-    
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        const currentDate = new Date().toLocaleDateString('ko-KR', options).replace(/[\.]/g, '-').replace(/[\s]/g, '').substring(0, 10);
-    
-        let rowsPerPage = 20; // Default rows per page
+    const memberIcon = document.getElementById('memberIcon');
+
+
+            const logoutModal = document.getElementById('logoutModal');
+            const confirmLogout = document.getElementById('confirmLogout');
+            const cancelLogout = document.getElementById('cancelLogout');
+            let isLoggedIn = true;
+
+            memberIcon.addEventListener('click', function () {
+                if (isLoggedIn) {
+                    logoutModal.classList.remove('hidden');
+                } else {
+                    logoutModal.classList.remove('hidden');
+                }
+            });
+
+
+            confirmLogout.addEventListener('click', function () {
+                isLoggedIn = false;
+                memberIcon.innerHTML = '<i class="fas fa-user"></i>';
+                logoutModal.classList.add('hidden');
+            });
+
+            cancelLogout.addEventListener('click', function () {
+                logoutModal.classList.add('hidden');
+            });
+
+    // UUID Generator Function
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = (Math.random() * 16) | 0,
+                v = c === 'x' ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+        });
+    }
+
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const currentDate = new Date().toLocaleDateString('ko-KR', options).replace(/[\.]/g, '-').replace(/[\s]/g, '').substring(0, 10);
+
+    let rowsPerPage = 20; // Default rows per page
 
     // Fetch data from the server
     fetch('https://your-backend-api.com/data')
@@ -32,7 +59,7 @@ function generateUUID() {
             localStorage.setItem('gridData', JSON.stringify(data));
         })
         .catch(error => {
-            
+
             showToast('서버 데이타 로딩 중 오류 입니다.', 'error');
             // Load data from local storage if server data is unavailable
             const storedData = localStorage.getItem('gridData');
@@ -198,7 +225,7 @@ function generateUUID() {
             })
             .catch((error) => {
                 console.error('Error:', error);
-                showToast('로컬 스토리지에 저장 하였으나, 원격 서버 데이터 저장에 실패했습니다.','warning');
+                showToast('로컬 스토리지에 저장 하였으나, 원격 서버 데이터 저장에 실패했습니다.', 'warning');
 
             });
     });
@@ -452,7 +479,7 @@ function generateUUID() {
         lastRow.style.backgroundColor = '#fff'; // 마지막 행의 배경색
         lastRow.style.borderBottom = '1px solid #8f8f8f'; // 마지막 행의 테두리 색
     }
-    
+
 
 });
 
