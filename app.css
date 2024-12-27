@@ -184,7 +184,7 @@ input[type="date"] {
 
 .collapsed {
     width: 64px;
-    
+
 }
 
 .collapsed .menu-text {
@@ -218,17 +218,17 @@ input[type="date"] {
     bottom: 130px;
     right: 10px;
     margin-top: 10px;
-    
-    
+
+
 }
 
 .expanded #collapseOffCanvas {
     display: block;
     position: absolute;
-    bottom : 120px;
+    bottom: 120px;
     right: 10px;
     margin-top: 10px;
-    
+
 }
 
 .menu-item {

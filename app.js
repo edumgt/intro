@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         offCanvas.classList.toggle('transform');
         offCanvas.classList.toggle('-translate-x-full');
         offCanvas.classList.add('expanded');
-        expandOffCanvas.classList.add('hidden'); 
+        expandOffCanvas.classList.add('hidden');
     });
 
     // closeOffCanvas.addEventListener('click', function() {
