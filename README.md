@@ -1,5 +1,6 @@
 ## 시스템 구축 주요 이력
 
+### SBS 아카데미 운영 KEG 회사 인트라넷 리뉴얼, 클라우드 이관 사업 TA,AA
 ### 롯데호텔 MSA 기반 SaaS 구축 참여 ( Front Desk 업무, TA )
 ### 메가스터디 대입 분석 시스템 구축
 ### kt DS (방배사옥) AWS 전체 서비스 활용 MSP 사업(EKS,ECS,ECR,Codeseries CI/CD) 지원 SA 참여 
