@@ -1,6 +1,8 @@
 ## 👨‍💼 전문가 이력 요약
 
-> **시스템 아키텍트 및 기술 PM(Tech Lead)**으로서, 20년 이상의 경력을 바탕으로 교육, 플랫폼, 공공기관, 대기업 업무 시스템에 대한 **설계, 개발, 운영 전반**을 주도하였습니다.  
+- kimdypm@gmail.com / 010-2387-5836
+
+**시스템 아키텍트 및 기술 PM(Tech Lead)**으로서, 20년 이상의 경력을 바탕으로 교육, 플랫폼, 공공기관, 대기업 업무 시스템에 대한 **설계, 개발, 운영 전반**을 주도하였습니다.  
 Java(Spring Boot), Node.js, Express, Python, Django, React, Vue 등 **다양한 기술 스택과 프레임워크**에 능하며, MSA 백엔드(Spring Cloud, Kafka, Gateway, Jenkins 등) 및 **AWS(Amazon EKS, ECS, CodeSeries), Azure DevOps** 기반의 **CI/CD 인프라 구성**까지 광범위한 클라우드 환경에서 **End-to-End 설계 및 구축 역량**을 보유하고 있습니다.
 
 - 초기 설계부터 DB 모델링, API 설계, 프론트엔드 UI 구성까지 풀스택 경험 보유  
