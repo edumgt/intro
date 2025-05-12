@@ -32,6 +32,8 @@ Java(Spring Boot), Node.js, Express, Python, Django, React, Vue 등 **다양한 
 - **DevOps & GitOps 도입 확대**
 - **AI 기반 분석 시스템의 백엔드 및 MLOps 구성**
 
+## 주요 사업 이력
+
 ### SBS 아카데미 운영 KEG 회사 인트라넷 리뉴얼, 클라우드 이관 사업 TA,AA
 ### 롯데호텔 MSA 기반 SaaS 구축 참여 ( Front Desk 업무, TA )
 ### 메가스터디 대입 분석 시스템 구축
