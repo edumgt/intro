@@ -1,4 +1,36 @@
-## 시스템 구축 주요 이력
+## 👨‍💼 전문가 이력 요약
+
+> **시스템 아키텍트 및 기술 PM(Tech Lead)**으로서, 20년 이상의 경력을 바탕으로 교육, 플랫폼, 공공기관, 대기업 업무 시스템에 대한 **설계, 개발, 운영 전반**을 주도하였습니다.  
+Java(Spring Boot), Node.js, Express, Python, Django, React, Vue 등 **다양한 기술 스택과 프레임워크**에 능하며, MSA 백엔드(Spring Cloud, Kafka, Gateway, Jenkins 등) 및 **AWS(Amazon EKS, ECS, CodeSeries), Azure DevOps** 기반의 **CI/CD 인프라 구성**까지 광범위한 클라우드 환경에서 **End-to-End 설계 및 구축 역량**을 보유하고 있습니다.
+
+- 초기 설계부터 DB 모델링, API 설계, 프론트엔드 UI 구성까지 풀스택 경험 보유  
+- **CI/CD 및 MSA 설계/구축**, DevOps 기반 인프라 자동화 및 운영 능력 보유  
+- **서버리스 및 클라우드 네이티브 환경 도입**에 대한 적극적인 탐구 및 적용  
+- 다양한 프로젝트에서 **SA, AA, TA, Tech PM**으로 활동하며 기술적 리더십 수행  
+
+## 🛠 기술 역량
+
+- **Backend**: Java(Spring Boot), Node.js(Express), Python(Django, Flask)  
+- **Frontend**: React, Vue.js, Thymeleaf, React Native, Vanilla JS  
+- **DB**: MySQL, MariaDB, MSSQL, Oracle, MongoDB  
+- **MSA / Infra**: Spring Cloud, Kafka, Jenkins, Docker, Kubernetes (EKS/ECS)  
+- **CI/CD**: AWS CodePipeline, CodeBuild, Azure DevOps, GitHub Actions  
+- **클라우드**: AWS, Azure, Naver Cloud Platform, 서버리스(Lambda, Logic Apps 등)  
+- **기타**: WebRTC, STUN/TURN/MediaServer, Jira/Confluence 기반 협업, eGovFrame, LMS/LCMS, SSO, OAuth2.0  
+
+## 🔩 주요 역할
+
+- **Solution Architect (SA)**: 시스템 전반의 기술 스택 선정, 구조 설계 및 검증  
+- **Application Architect (AA)**: 애플리케이션 계층 구조 설계 및 프레임워크 선정  
+- **Technical PM**: 프로젝트 초기 기획 및 일정 수립, 개발/운영 팀과의 조율 및 기술 리딩  
+- **Lead Developer**: 코드 리뷰, 모듈 설계, 기술 난제 해결 및 멘토링  
+
+## 🔎 관심 기술 및 현재 포커스
+
+- **클라우드 네이티브 아키텍처**
+- **서버리스 기반 워크플로우 자동화 (Azure Logic Apps, AWS Step Functions 등)**
+- **DevOps & GitOps 도입 확대**
+- **AI 기반 분석 시스템의 백엔드 및 MLOps 구성**
 
 ### SBS 아카데미 운영 KEG 회사 인트라넷 리뉴얼, 클라우드 이관 사업 TA,AA
 ### 롯데호텔 MSA 기반 SaaS 구축 참여 ( Front Desk 업무, TA )
