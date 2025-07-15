@@ -3,7 +3,8 @@
 - kimdypm@gmail.com / 010-2387-5836
 
 **시스템 아키텍트 및 기술 PM(Tech Lead)**으로서, 20년 이상의 경력을 바탕으로 교육, 플랫폼, 공공기관, 대기업 업무 시스템에 대한 **설계, 개발, 운영 전반**을 주도하였습니다.  
-Java(Spring Boot), Node.js, Express, Python, Django, React, Vue 등 **다양한 기술 스택과 프레임워크**에 능하며, MSA 백엔드(Spring Cloud, Kafka, Gateway, Jenkins 등) 및 **AWS(Amazon EKS, ECS, CodeSeries), Azure DevOps** 기반의 **CI/CD 인프라 구성**까지 광범위한 클라우드 환경에서 **End-to-End 설계 및 구축 역량**을 보유하고 있습니다.
+Java(Spring Boot), Node.js, Express, Python, Django, React, Vue 등 **다양한 기술 스택과 프레임워크**에 능하며, MSA 백엔드(Spring Cloud, Kafka, Gateway, Jenkins 등) 
+및 **AWS(Amazon EKS, ECS, CodeSeries), Azure DevOps** 기반의 **CI/CD 인프라 구성**까지 광범위한 클라우드 환경에서 **End-to-End 설계 및 구축 역량**을 보유하고 있습니다.
 
 - 초기 설계부터 DB 모델링, API 설계, 프론트엔드 UI 구성까지 풀스택 경험 보유  
 - **CI/CD 및 MSA 설계/구축**, DevOps 기반 인프라 자동화 및 운영 능력 보유  
@@ -36,6 +37,9 @@ Java(Spring Boot), Node.js, Express, Python, Django, React, Vue 등 **다양한 
 
 ## 주요 사업 이력
 
+### 국비 교육 과정 NCS 2등급 클라우드 네이티브, AI IaaS 기반 구축 교육 및 프로젝트 지도
+### Himec 엔지니어링 회사 온프레미스 환경의 클라우드 전환 컨설팅
+### 퀵서비스, 지하철 택배 시스템 클라우드 전환 컨설팅
 ### SBS 아카데미 운영 KEG 회사 인트라넷 리뉴얼, 클라우드 이관 사업 TA,AA
 ### 롯데호텔 MSA 기반 SaaS 구축 참여 ( Front Desk 업무, TA )
 ### 메가스터디 대입 분석 시스템 구축
