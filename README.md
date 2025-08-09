@@ -37,6 +37,7 @@ Java(Spring Boot), Node.js, Express, Python, Django, React, Vue 등 **다양한 
 
 ## 주요 사업 이력
 
+### 디지탈 대성 Paffy 서비스 B2B 모듈 개발 AA, Common (AWS, API GW, 람다)
 ### 국비 교육 과정 NCS 2등급 클라우드 네이티브, AI IaaS 기반 구축 교육 및 프로젝트 지도
 ### Himec 엔지니어링 회사 온프레미스 환경의 클라우드 전환 컨설팅
 ### 퀵서비스, 지하철 택배 시스템 클라우드 전환 컨설팅
